@@ -1,0 +1,27 @@
+services:
+  gods-eye-view:
+    build:
+      context: .
+      args:
+        GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-}
+        CESIUM_ION_TOKEN: ${CESIUM_ION_TOKEN:-}
+        MAPILLARY_CLIENT_TOKEN: ${MAPILLARY_CLIENT_TOKEN:-}
+    image: gods-eye-view:local
+    init: true
+    ports:
+      - '127.0.0.1:${GEV_PORT:-4173}:4173'
+    environment:
+      HOST: '0.0.0.0'
+      PORT: '4173'
+      NODE_ENV: production
+      GEV_ALLOWED_HOSTS: ${GEV_ALLOWED_HOSTS:-}
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - provider-cache:/app/.gev-cache
+    restart: unless-stopped
+    stop_grace_period: 15s
+
+volumes:
+  provider-cache:

@@ -1,5 +1,7 @@
 # God's Eye View Current State
 
+Docker Compose serves the built frontend and provider APIs through a standalone Node HTTP server (`npm start`). It runs as a non-root user, checks Host headers, uses the shared browser security headers, and exposes `/healthz`. Development-only credential editing and MCP routes are absent from deployment. The multi-stage image omits development dependencies and local credential files; see `docs/docker.md`.
+
 The frontend supports English and Simplified Chinese (`zh-CN`). Explicit language preferences are saved in localStorage; selection reloads the current URL. Browser locale is used on first launch. Application-owned copy is keyed in `src/i18n/messages.js`; external provider data and stable layer IDs are unchanged. `scripts/check-i18n.mjs` validates catalogs and template references; `scripts/qa-i18n.mjs` exercises both languages and narrow layouts.
 
 Vessel sources can report healthy empty coverage using a current, complete

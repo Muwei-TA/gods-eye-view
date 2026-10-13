@@ -1,5 +1,7 @@
 # Changelog
 
+- Add a standalone deployment server and Docker Compose workflow with local provider APIs, health checks, non-root execution and runtime secret injection.
+
 - Add English / Simplified Chinese selection with persistent preferences, translated application controls and feedback, and desktop/mobile localization checks.
 
 - Treat explicitly current, complete empty vessel coverage as a successful update,

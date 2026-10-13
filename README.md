@@ -26,6 +26,8 @@ _“pretty cool”_ — [Brendan Eich](https://x.com/BrendanEich/status/20945920
 
 **Language:** English and 简体中文 — use the language menu in the top-left corner. [简体中文说明](docs/zh-CN.md).
 
+**Docker:** `docker compose up --build -d` starts the built frontend and local provider APIs. [Deployment guide / 部署说明](docs/docker.md).
+
 ⚡ **Start without API keys.** Install with [Pinokio](https://pinokio.co/apps/github-com-bilawalsidhu-gods-eye-view) or run locally from the terminal. Add optional keys inside the app. **[→ Quick Start](#-quick-start)**
 
 </div>

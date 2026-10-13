@@ -44,6 +44,10 @@ try {
         .catch(() => ''),
       locale === 'en' ? 'Search any location...' : '搜索任意位置……',
     );
+    await page.waitForFunction(
+      () => window.__godsEyeView?.viewer && window.__godsEyeView?.dataManager,
+      { timeout: 60000 },
+    );
     const dynamic = await page.evaluate(async () => {
       const { LayerPanel } = await import('/src/ui/layerPanel.js');
       const { keySetupChipLabel } = await import('/src/keySetup.js');

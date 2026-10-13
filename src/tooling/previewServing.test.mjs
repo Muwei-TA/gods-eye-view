@@ -1,3 +1,4 @@
+import { keySetupEndpoint } from '../../server/standalone/key-setup.js';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { writeFile, rm } from 'node:fs/promises';
@@ -87,7 +88,11 @@ test('real dev and built-preview servers serve provider JSON and terminate unkno
   for (const isPreview of [false, true]) {
     const config = {
       ...base,
-      plugins: [...localProviderPlugins(), apiNotFoundPlugin()],
+      plugins: [
+        ...localProviderPlugins(),
+        keySetupEndpoint(),
+        apiNotFoundPlugin(),
+      ],
       server: { host: '127.0.0.1', port: 0, hmr: false },
       preview: { host: '127.0.0.1', port: 0 },
     };
