@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import {
   settleUserFacingContextAction,
   contextModeWord,
@@ -222,21 +223,33 @@ export function clearSelectedLayers() {
   const operation = managerOperation
     .then((result) => {
       if (result.targetIds.length === 0) {
-        this.showToast('No selected data layers');
+        this.showToast(translate('ui.no_selected_data_layers'));
       } else if (result.notClearedIds.length > 0) {
         this.showToast(
-          `${result.notClearedIds.length} data layer${result.notClearedIds.length === 1 ? '' : 's'} could not be cleared`,
+          translate('ui.p0_data_layer_p1_could_not_be_cleared', {
+            p0: result.notClearedIds.length,
+            p1:
+              result.notClearedIds.length === 1
+                ? ''
+                : translate('grammar.plural_s'),
+          }),
         );
       } else {
         this.showToast(
-          `Cleared ${result.clearedIds.length} data layer${result.clearedIds.length === 1 ? '' : 's'}`,
+          translate('ui.cleared_p0_data_layer_p1', {
+            p0: result.clearedIds.length,
+            p1:
+              result.clearedIds.length === 1
+                ? ''
+                : translate('grammar.plural_s'),
+          }),
         );
       }
       return result;
     })
     .catch((error) => {
       console.warn('[Data] clear selected layers failed', error);
-      this.showToast('Selected data layers could not be cleared');
+      this.showToast(translate('ui.selected_data_layers_could_not_be_cleared'));
       return {
         targetIds: [],
         items: [],

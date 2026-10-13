@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 export function _initCctvPanel() {
   if (!this._cctvPanel) return;
 
@@ -143,7 +144,7 @@ export function _initCctvPanel() {
       },
       { origin: 'user' },
     );
-    this.actions.showToast('CCTV calibration saved');
+    this.actions.showToast(translate('ui.cctv_calibration_saved'));
   });
 
   this.listen(this._cctvCalibResetBtn, 'click', () => {

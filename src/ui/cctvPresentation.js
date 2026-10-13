@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import { createCctvVideoSurface } from './cctvVideo.js';
 export function _calBadgeLabel(badge) {
   switch (badge) {
@@ -51,7 +52,9 @@ export function _renderCctvState(state) {
 
   if (this._cctvEnableBtn) {
     this._cctvEnableBtn.classList.toggle('active', enabled);
-    this._cctvEnableBtn.textContent = enabled ? 'CCTV ON' : 'CCTV OFF';
+    this._cctvEnableBtn.textContent = enabled
+      ? translate('ui.cctv_on')
+      : translate('ui.cctv_off');
   }
 
   if (this._cctvSelect) {
@@ -99,17 +102,19 @@ export function _renderCctvState(state) {
     this._cctvCoverageBtn.classList.toggle('active', mode !== 'off');
     this._cctvCoverageBtn.textContent =
       mode === 'viewshed'
-        ? 'VIEWSHED ON'
+        ? translate('ui.viewshed_on')
         : mode === 'on'
-          ? 'COVERAGE ON'
-          : 'COVERAGE OFF';
+          ? translate('ui.coverage_on')
+          : translate('ui.coverage_off');
     this._cctvCoverageBtn.disabled = !enabled;
   }
 
   if (this._cctvAutoHopBtn) {
     const autoHop = !!state?.autoHop;
     this._cctvAutoHopBtn.classList.toggle('active', autoHop);
-    this._cctvAutoHopBtn.textContent = autoHop ? 'AUTO HOP ON' : 'AUTO HOP OFF';
+    this._cctvAutoHopBtn.textContent = autoHop
+      ? translate('ui.auto_hop_on')
+      : translate('ui.auto_hop_off');
     this._cctvAutoHopBtn.disabled = !enabled;
   }
 
@@ -117,8 +122,8 @@ export function _renderCctvState(state) {
     const showProjection = state?.showProjection !== false;
     this._cctvProjectionBtn.classList.toggle('active', showProjection);
     this._cctvProjectionBtn.textContent = showProjection
-      ? 'PROJECTION ON'
-      : 'PROJECTION OFF';
+      ? translate('ui.projection_on')
+      : translate('ui.projection_off');
     this._cctvProjectionBtn.disabled = !enabled;
   }
 
@@ -133,8 +138,8 @@ export function _renderCctvState(state) {
     const badge = activeCamera?.calBadge || null;
     const dirty = !!activeCamera?.calDirty;
     this._cctvQualityChip.textContent = dirty
-      ? 'CAL · EDITED (UNSAVED)'
-      : `CAL · ${this._calBadgeLabel(badge)}`;
+      ? translate('ui.cal_edited_unsaved')
+      : translate('ui.cal_p0', { p0: this._calBadgeLabel(badge) });
     this._cctvQualityChip.dataset.calBadge = dirty ? 'edited' : badge || '';
   }
 
@@ -155,13 +160,32 @@ export function _renderCctvState(state) {
         ? this._calBadgeLabel(activeCamera.calBadge)
         : '';
       const projLabel = state?.showProjection !== false ? 'MONITOR' : 'OFF';
-      this._cctvMeta.textContent = `${activeCamera.city} · HDG ${Math.round(activeCamera.headingDeg)}° · FOV ${Math.round(activeCamera.fovDeg)}° · RANGE ${Math.round(activeCamera.rangeM)}m · ${projLabel}${calBadge ? ` · ${calBadge}` : ''} · ${provider}${credit}${statusMsg}`;
+      this._cctvMeta.textContent = translate(
+        'ui.p0_hdg_p1_fov_p2_range_p3_m_p4_p5_p6_p7_p8',
+        {
+          p0: activeCamera.city,
+          p1: Math.round(activeCamera.headingDeg),
+          p2: Math.round(activeCamera.fovDeg),
+          p3: Math.round(activeCamera.rangeM),
+          p4: projLabel,
+          p5: calBadge ? ` · ${calBadge}` : '',
+          p6: provider,
+          p7: credit,
+          p8: statusMsg,
+        },
+      );
     } else if (cameras.length > 0) {
       this._cctvMeta.textContent = enabled
-        ? `${cameras.length} cameras loaded · click a camera to activate`
-        : `${cameras.length} cameras loaded · enable CCTV to activate`;
+        ? translate('ui.p0_cameras_loaded_click_a_camera_to_activate', {
+            p0: cameras.length,
+          })
+        : translate('ui.p0_cameras_loaded_enable_cctv_to_activate', {
+            p0: cameras.length,
+          });
     } else {
-      this._cctvMeta.textContent = 'Enable CCTV to load camera intersections';
+      this._cctvMeta.textContent = translate(
+        'ui.enable_cctv_to_load_camera_intersections',
+      );
     }
   }
 

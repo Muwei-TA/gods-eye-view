@@ -1,3 +1,4 @@
+import { localizeLabel } from './i18n/core.js';
 // MAP STACK source chips — the always-visible replacement for the `<select>`
 // that used to sit in the Map Stack panel. One button per stack, rendered from
 // `MapStackController.getStacks()`. The approved sources below are
@@ -113,7 +114,7 @@ export function renderMapStackChips(
       .filter(Boolean)
       .join(' ');
     chip.dataset.stackId = model.id;
-    chip.title = model.title;
+    chip.title = localizeLabel(model.title);
     chip.setAttribute('aria-pressed', String(model.active));
     chip.setAttribute('aria-disabled', String(!model.available));
     if (!model.available) {
@@ -125,7 +126,7 @@ export function renderMapStackChips(
 
     const label = ownerDoc.createElement('span');
     label.className = 'map-stack-chip-label';
-    label.textContent = model.label;
+    label.textContent = localizeLabel(model.label);
     chip.appendChild(label);
 
     if (model.requirement) {

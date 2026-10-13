@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 export function _clearCctvFrame() {
   this._cctvFrameRequestToken += 1;
   if (this._cctvFramePreloader) {
@@ -86,19 +87,19 @@ export function _settleCctvFrame(token, src, ok) {
 export function _syncCctvSourceBadge(activeCamera, enabled) {
   if (!this._cctvSourceBadge) return;
   if (!enabled || !activeCamera) {
-    this._cctvSourceBadge.textContent = 'SOURCE · UNKNOWN';
+    this._cctvSourceBadge.textContent = translate('ui.source_unknown');
     this._cctvSourceBadge.dataset.frameState = 'idle';
     return;
   }
   const hasDisplayedFrame =
     this._cctvFrameWrap?.classList.contains('has-frame');
   if (this._cctvFrame?.dataset.loading === 'true' && !hasDisplayedFrame) {
-    this._cctvSourceBadge.textContent = 'FRAME · LOADING';
+    this._cctvSourceBadge.textContent = translate('ui.frame_loading');
     this._cctvSourceBadge.dataset.frameState = 'loading';
     return;
   }
   if (this._cctvFrame?.dataset.error === 'true' && !hasDisplayedFrame) {
-    this._cctvSourceBadge.textContent = 'FRAME · UNAVAILABLE';
+    this._cctvSourceBadge.textContent = translate('ui.frame_unavailable');
     this._cctvSourceBadge.dataset.frameState = 'error';
     return;
   }

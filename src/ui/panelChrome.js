@@ -1,3 +1,4 @@
+import { translate, localizeLabel } from '../i18n/core.js';
 import { UiLifetime } from './uiLifetime.js';
 import { displayPanelScroller } from './displayPanelScroll.js';
 import { PanelPositionControls } from './panelPositionControls.js';
@@ -311,13 +312,16 @@ export class PanelChrome {
           panelEl
             .querySelector('.panel-title, .pp-header-label')
             ?.textContent?.trim() || 'panel';
-        const action = collapsed ? 'Expand' : 'Collapse';
-        btn.title = `${action} ${panelName}`;
-        btn.setAttribute('aria-label', `${action} ${panelName}`);
+        const action = localizeLabel(collapsed ? 'Expand' : 'Collapse');
+        btn.title = `${action} ${localizeLabel(panelName)}`;
+        btn.setAttribute('aria-label', `${action} ${localizeLabel(panelName)}`);
         if (panelEl.id === 'radio-panel') {
-          const action = collapsed ? 'Expand' : 'Collapse';
-          btn.title = `${action} Radio`;
-          btn.setAttribute('aria-label', `${action} Radio section`);
+          const action = localizeLabel(collapsed ? 'Expand' : 'Collapse');
+          btn.title = translate('ui.p0_radio', { p0: action });
+          btn.setAttribute(
+            'aria-label',
+            translate('ui.p0_radio_section', { p0: action }),
+          );
         }
       });
     const dockToggle = panelEl.querySelector(
@@ -328,10 +332,13 @@ export class PanelChrome {
         panelEl
           .querySelector('.panel-title, .location-toolbar-label')
           ?.textContent?.trim() || 'panel';
-      const action = collapsed ? 'Expand' : 'Collapse';
+      const action = localizeLabel(collapsed ? 'Expand' : 'Collapse');
       dockToggle.setAttribute('aria-expanded', String(!collapsed));
-      dockToggle.setAttribute('aria-label', `${action} ${panelName}`);
-      dockToggle.title = `${action} ${panelName}`;
+      dockToggle.setAttribute(
+        'aria-label',
+        `${action} ${localizeLabel(panelName)}`,
+      );
+      dockToggle.title = `${action} ${localizeLabel(panelName)}`;
     }
     if (panelEl.id === 'radio-panel' && this._contextRadioDetailsBtn) {
       this._contextRadioDetailsBtn.setAttribute(

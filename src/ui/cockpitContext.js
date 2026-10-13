@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Contact readouts and nearby-signal presentation for the Cockpit controller. */
 import * as Cesium from 'cesium';
 import {
@@ -52,8 +53,9 @@ export function updateContext(info, heading) {
     const enteringLost = this.context.dataset.state !== 'lost';
     this.context.dataset.state = 'lost';
     if (this.contextUncertainty) {
-      this.contextUncertainty.textContent =
-        'CONTACT LOST · LAST KNOWN READOUT · NOT AN ALL-CLEAR';
+      this.contextUncertainty.textContent = translate(
+        'ui.contact_lost_last_known_readout_not_an_all_clear',
+      );
     }
     // The cue changes the footer's height; re-run layout once on the way in
     // rather than every frame the contact stays lost.
@@ -84,24 +86,29 @@ export function updateContext(info, heading) {
   if (this.contextNearestLabel) {
     this.contextNearestLabel.textContent = closest
       ? `${closest.cohort.label.toUpperCase()} · ${closestLabel}`
-      : 'NO AVAILABLE EXAMPLE';
+      : translate('ui.no_available_example');
     this.contextNearestLabel.setAttribute(
       'aria-label',
       closest && closestLabel === '—'
-        ? `${closest.cohort.label}, Unavailable`
+        ? translate('ui.p0_unavailable', { p0: closest.cohort.label })
         : this.contextNearestLabel.textContent,
     );
   }
   if (this.contextDistance) {
     const distanceM = closest?.distanceM;
     this.contextDistance.textContent = Number.isFinite(distanceM)
-      ? `${distanceM < 10000 ? (distanceM / 1000).toFixed(1) : Math.round(distanceM / 1000)} KM`
+      ? translate('ui.p0_km', {
+          p0:
+            distanceM < 10000
+              ? (distanceM / 1000).toFixed(1)
+              : Math.round(distanceM / 1000),
+        })
       : '—';
     this.contextDistance.setAttribute(
       'aria-label',
       Number.isFinite(distanceM)
         ? this.contextDistance.textContent
-        : 'Unavailable',
+        : translate('ui.unavailable'),
     );
   }
 
@@ -133,15 +140,20 @@ export function updateContext(info, heading) {
     this.contextDirection.classList.toggle('unknown', relative === null);
   }
   if (this.contextBearing) {
-    if (relative === null) this.contextBearing.textContent = 'BRG —';
-    else if (Math.abs(relative) < 8) this.contextBearing.textContent = 'AHEAD';
+    if (relative === null)
+      this.contextBearing.textContent = translate('ui.brg');
+    else if (Math.abs(relative) < 8)
+      this.contextBearing.textContent = translate('ui.ahead');
     else
       this.contextBearing.textContent = `${relative < 0 ? 'L' : 'R'} ${String(Math.round(Math.abs(relative))).padStart(3, '0')}°`;
   }
   if (this.contextUncertainty) {
     this.contextUncertainty.textContent = unknownCount
-      ? `${unknownCount} INPUT${unknownCount === 1 ? '' : 'S'} UNKNOWN · NOT AN ALL-CLEAR`
-      : 'AVAILABLE INPUTS CURRENT · NOT AN ALL-CLEAR';
+      ? translate('ui.p0_input_p1_unknown_not_an_all_clear', {
+          p0: unknownCount,
+          p1: unknownCount === 1 ? '' : translate('grammar.plural_S'),
+        })
+      : translate('ui.available_inputs_current_not_an_all_clear');
   }
   if (this.contextUpdated) {
     this.contextUpdated.textContent = Number.isFinite(snapshot.evaluatedAt)

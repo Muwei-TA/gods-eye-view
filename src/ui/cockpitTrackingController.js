@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Tracking identity, entry, exit and contact navigation for the Cockpit controller. */
 import {
   normalizeHeading,
@@ -58,8 +59,8 @@ export function syncTr3bToggle(info) {
   this.tr3bToggle.hidden = !icao24;
   this.tr3bToggle.setAttribute('aria-pressed', converted ? 'true' : 'false');
   this.tr3bToggle.title = converted
-    ? 'Restore real aircraft'
-    : 'Reclassify as TR-3B';
+    ? translate('ui.restore_real_aircraft')
+    : translate('ui.reclassify_as_tr_3b');
 }
 
 export function syncEntry() {

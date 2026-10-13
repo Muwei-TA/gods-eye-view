@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Shortest-wrap signed degrees, for heading offsets typed as absolute values. */
 const signedNormalizeDeg = (deg) => ((((deg + 180) % 360) + 360) % 360) - 180;
 
@@ -10,7 +11,7 @@ const signedNormalizeDeg = (deg) => ((((deg + 180) % 360) + 360) % 360) - 180;
  */
 const CCTV_CAL_FIELDS = {
   heading: {
-    label: 'HDG',
+    label: translate('ui.hdg'),
     unit: '°',
     decimals: 1,
     get: (cam) => cam.headingDeg,
@@ -19,21 +20,21 @@ const CCTV_CAL_FIELDS = {
     }),
   },
   pitch: {
-    label: 'PITCH',
+    label: translate('ui.pitch'),
     unit: '°',
     decimals: 1,
     get: (cam) => cam.pitchDeg,
     toPatch: (value, base) => ({ pitchDeg: value - base.pitchDeg }),
   },
   fov: {
-    label: 'FOV',
+    label: translate('ui.fov'),
     unit: '°',
     decimals: 0,
     get: (cam) => cam.fovDeg,
     toPatch: (value, base) => ({ fovDeg: value - base.fovDeg }),
   },
   range: {
-    label: 'RANGE',
+    label: translate('ui.range'),
     unit: 'm',
     decimals: 0,
     get: (cam) => cam.rangeM,
@@ -42,7 +43,7 @@ const CCTV_CAL_FIELDS = {
     }),
   },
   height: {
-    label: 'HGT',
+    label: translate('ui.hgt'),
     unit: 'm',
     decimals: 0,
     get: (cam) => cam.mountHeightM,
@@ -81,7 +82,7 @@ export function _resetCctvCalibration() {
     },
     { origin: 'user' },
   );
-  this.actions.showToast('CCTV calibration reset');
+  this.actions.showToast(translate('ui.cctv_calibration_reset'));
 }
 
 export function _beginCctvCalValueEdit(chip) {
@@ -162,7 +163,9 @@ export function _syncCctvCalReadout(enabled, activeCamera) {
   if (this._cctvAdjustBtn) {
     const adjustOn = !!this._cctvState?.calibrationMode;
     this._cctvAdjustBtn.classList.toggle('active', adjustOn && canCalibrate);
-    this._cctvAdjustBtn.textContent = adjustOn ? 'ADJUST ON' : 'ADJUST';
+    this._cctvAdjustBtn.textContent = adjustOn
+      ? translate('ui.adjust_on')
+      : translate('ui.adjust');
     this._cctvAdjustBtn.disabled = !canCalibrate;
   }
   if (this._cctvCalReadout) {

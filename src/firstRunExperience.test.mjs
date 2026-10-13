@@ -1,4 +1,4 @@
-import { expandApplicationHtml } from '../build/application-html.js';
+import { expandApplicationHtml } from './testSupport/legacyApplicationHtml.mjs';
 import { readStylesheet } from './testSupport/readStylesheet.mjs';
 import { GEV_REALTIME_TOOLS } from '../server/providers/openai/tools.js';
 import test from 'node:test';

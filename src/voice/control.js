@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Build the voice control independently of its connection backend. */
 export function createVoiceControl({ reset = false } = {}) {
   let root = document.getElementById('gev-voice-control');
@@ -12,34 +13,34 @@ export function createVoiceControl({ reset = false } = {}) {
     root.dataset.speaker = 'idle';
     root.innerHTML = `
       <div class="gev-voice-heading">
-        <div class="gev-voice-kicker">AI AGENT</div>
-        <div id="gev-voice-status">OFF</div>
+        <div class="gev-voice-kicker">${translate('ui.ai_agent')}</div>
+        <div id="gev-voice-status">${translate('ui.off')}</div>
         <div class="gev-voice-cost">
-          <button id="gev-voice-tier" class="gev-voice-tier-btn" type="button" aria-pressed="false" title="Voice model tier — applies next session">STD</button>
-          <span id="gev-voice-cost-value" class="gev-voice-cost-value" data-level="ok" title="Estimated session cost">~$0.00</span>
+          <button id="gev-voice-tier" class="gev-voice-tier-btn" type="button" aria-pressed="false" title="${translate('ui.voice_model_tier_applies_next_session')}">STD</button>
+          <span id="gev-voice-cost-value" class="gev-voice-cost-value" data-level="ok" title="${translate('ui.estimated_session_cost')}">~$0.00</span>
         </div>
       </div>
-      <button id="gev-voice-button" type="button" aria-label="Voice control — activate to toggle voice; hold Space to speak" aria-describedby="gev-voice-help">
+      <button id="gev-voice-button" type="button" aria-label="${translate('ui.voice_control_activate_to_toggle_voice_hold_space_to_speak')}" aria-describedby="gev-voice-help">
         <span class="gev-mic-orbit"><img src="/mic.svg" alt="" /></span>
-        <span class="gev-mic-label">ON/OFF</span>
+        <span class="gev-mic-label">${translate('ui.on_off')}</span>
       </button>
       <div class="gev-voice-visualizer" aria-hidden="true">
         ${Array.from({ length: 15 }, (_, index) => `<span style="--bar:${index}"></span>`).join('')}
       </div>
       <div class="gev-voice-readout">
-        <div id="gev-voice-detail">VOICE STANDBY</div>
+        <div id="gev-voice-detail">${translate('ui.voice_standby')}</div>
       </div>
       <div id="gev-voice-help" class="gev-voice-help-tray" role="tooltip">
-        <span class="gev-voice-help-kicker">VOICE CONTROL</span>
-        <span class="gev-voice-help-detail">Hold Space to speak · tap Space to activate focused controls</span>
+        <span class="gev-voice-help-kicker">${translate('ui.voice_control')}</span>
+        <span class="gev-voice-help-detail">${translate('ui.hold_space_to_speak_tap_space_to_activate_focused_controls')}</span>
       </div>
-      <section id="gev-voice-card" class="gev-voice-card" hidden aria-label="Voice assistant">
+      <section id="gev-voice-card" class="gev-voice-card" hidden aria-label="${translate('ui.voice_assistant')}">
         <div class="gev-voice-card-header">
-          <span class="gev-voice-card-kicker">VOICE</span>
+          <span class="gev-voice-card-kicker">${translate('ui.voice')}</span>
           <span id="gev-voice-card-phase" class="gev-voice-card-phase"></span>
-          <button id="gev-voice-card-dismiss" class="gev-voice-card-dismiss" type="button" aria-label="Dismiss voice card">×</button>
+          <button id="gev-voice-card-dismiss" class="gev-voice-card-dismiss" type="button" aria-label="${translate('ui.dismiss_voice_card')}">×</button>
         </div>
-        <p id="gev-voice-card-user" class="gev-voice-card-caption" data-role="user" hidden><span class="gev-voice-card-who">YOU</span><span id="gev-voice-card-user-text" class="gev-voice-card-text"></span></p>
+        <p id="gev-voice-card-user" class="gev-voice-card-caption" data-role="user" hidden><span class="gev-voice-card-who">${translate('ui.you')}</span><span id="gev-voice-card-user-text" class="gev-voice-card-text"></span></p>
         <p id="gev-voice-card-pointer" class="gev-voice-card-pointer" hidden><span id="gev-voice-card-pointer-kind" class="gev-voice-card-who">THIS</span><span class="gev-voice-card-sr">: </span><span id="gev-voice-card-pointer-text" class="gev-voice-card-pointer-label"></span></p>
         <p id="gev-voice-card-assistant" class="gev-voice-card-caption" data-role="assistant" hidden><span class="gev-voice-card-who">GEV</span><span id="gev-voice-card-assistant-text" class="gev-voice-card-text"></span></p>
         <ol id="gev-voice-card-plan" class="gev-voice-card-plan" aria-label="Plan" hidden></ol>

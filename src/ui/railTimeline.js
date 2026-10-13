@@ -1,3 +1,4 @@
+import { translate, localizeLabel } from '../i18n/core.js';
 const set = (node, key, value) => {
   if (node[key] !== value) node[key] = value;
 };
@@ -27,8 +28,8 @@ export function createRailTimeline({
     const node = document.createElement('button');
     node.type = 'button';
     node.className = 'data-toggle-chip';
-    node.textContent = label;
-    node.title = title;
+    node.textContent = localizeLabel(label);
+    node.title = localizeLabel(title);
     parent.appendChild(node);
     return node;
   };
@@ -40,7 +41,7 @@ export function createRailTimeline({
   slider.max = '0';
   slider.step = '1';
   slider.value = '0';
-  slider.setAttribute('aria-label', 'Observed history');
+  slider.setAttribute('aria-label', translate('ui.observed_history'));
   row.appendChild(slider);
   const next = makeButton('›', 'Later observation', row);
   const controls = document.createElement('div');
@@ -52,7 +53,7 @@ export function createRailTimeline({
   controls.appendChild(readout);
   const label = document.createElement('div');
   label.className = 'panel-title';
-  label.textContent = 'Observed history';
+  label.textContent = translate('ui.observed_history');
   const endpoints = document.createElement('div');
   endpoints.className = 'rail-timeline-endpoints';
   const oldest = document.createElement('span');
@@ -128,7 +129,7 @@ export function createRailTimeline({
       `data-toggle-chip${props.mode === 'latest' ? ' active' : ''}`,
     );
     set(play, 'className', `data-toggle-chip${props.playing ? ' active' : ''}`);
-    set(play, 'textContent', props.playing ? 'Pause' : 'Play');
+    set(play, 'textContent', localizeLabel(props.playing ? 'Pause' : 'Play'));
     for (const [node, active] of [
       [latest, props.mode === 'latest'],
       [play, props.playing],

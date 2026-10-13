@@ -1,5 +1,7 @@
 # Changelog
 
+- Add English / Simplified Chinese selection with persistent preferences, translated application controls and feedback, and desktop/mobile localization checks.
+
 - Treat explicitly current, complete empty vessel coverage as a successful update,
   clearing obsolete contacts while retaining stale or incomplete snapshots.
 

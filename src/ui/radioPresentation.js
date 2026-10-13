@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Render Radio state without making playback or Context decisions. */
 export function renderRadioState(state) {
   if (this.destroyed || !state || !this._radioPanel) return;
@@ -34,12 +35,12 @@ export function renderRadioState(state) {
     this._radioLayerState.textContent = transitioning
       ? lifecycleState.toUpperCase()
       : uncertain
-        ? 'UNCERTAIN'
+        ? translate('ui.uncertain')
         : state.loading
-          ? 'SYNC'
+          ? translate('ui.sync')
           : enabled
             ? `${state.filteredCount}/${state.stationCount}`
-            : 'OFF';
+            : translate('ui.off');
   }
   if (this._radioEnableBtn) {
     this._radioEnableBtn.classList.toggle('active', enabled);
@@ -47,15 +48,19 @@ export function renderRadioState(state) {
     this._radioEnableBtn.textContent = transitioning
       ? lifecycleState.toUpperCase()
       : uncertain
-        ? 'RECONCILE'
+        ? translate('ui.reconcile')
         : enabled
-          ? 'DISABLE'
-          : 'ENABLE';
+          ? translate('ui.disable')
+          : translate('ui.enable');
     this._radioEnableBtn.setAttribute(
       'aria-label',
       uncertain
-        ? 'Reconcile Radio — lifecycle uncertain'
-        : `${enabled ? 'Disable' : 'Enable'} Radio`,
+        ? translate('ui.reconcile_radio_lifecycle_uncertain')
+        : translate('ui.p0_radio', {
+            p0: enabled
+              ? translate('ui.disable_b7e3e4')
+              : translate('ui.enable_5342e0'),
+          }),
     );
     this._radioEnableBtn.disabled = false;
     this._radioEnableBtn.setAttribute('aria-disabled', String(transitioning));
@@ -70,15 +75,19 @@ export function renderRadioState(state) {
     this._contextRadioMiniEnableBtn.textContent = transitioning
       ? lifecycleState.toUpperCase()
       : uncertain
-        ? 'RECONCILE'
+        ? translate('ui.reconcile')
         : enabled
-          ? 'DISABLE'
-          : 'ENABLE';
+          ? translate('ui.disable')
+          : translate('ui.enable');
     this._contextRadioMiniEnableBtn.setAttribute(
       'aria-label',
       uncertain
-        ? 'Reconcile Radio — lifecycle uncertain'
-        : `${enabled ? 'Disable' : 'Enable'} Radio`,
+        ? translate('ui.reconcile_radio_lifecycle_uncertain')
+        : translate('ui.p0_radio', {
+            p0: enabled
+              ? translate('ui.disable_b7e3e4')
+              : translate('ui.enable_5342e0'),
+          }),
     );
     this._contextRadioMiniEnableBtn.disabled = false;
     this._contextRadioMiniEnableBtn.setAttribute(
@@ -96,15 +105,19 @@ export function renderRadioState(state) {
     this._cockpitRadioEnableBtn.textContent = transitioning
       ? lifecycleState.toUpperCase()
       : uncertain
-        ? 'RECONCILE'
+        ? translate('ui.reconcile')
         : enabled
-          ? 'DISABLE'
-          : 'ENABLE';
+          ? translate('ui.disable')
+          : translate('ui.enable');
     this._cockpitRadioEnableBtn.setAttribute(
       'aria-label',
       uncertain
-        ? 'Reconcile Radio — lifecycle uncertain'
-        : `${enabled ? 'Disable' : 'Enable'} Radio`,
+        ? translate('ui.reconcile_radio_lifecycle_uncertain')
+        : translate('ui.p0_radio', {
+            p0: enabled
+              ? translate('ui.disable_b7e3e4')
+              : translate('ui.enable_5342e0'),
+          }),
     );
     this._cockpitRadioEnableBtn.disabled = false;
     this._cockpitRadioEnableBtn.setAttribute(
@@ -156,8 +169,10 @@ export function renderRadioState(state) {
     );
     this._radioTunerBandLabel.textContent =
       state.filter === 'all'
-        ? 'DIRECTORY BAND'
-        : `${String(activeCategory?.label || state.filter).toUpperCase()} BAND`;
+        ? translate('ui.directory_band')
+        : translate('ui.p0_band', {
+            p0: String(activeCategory?.label || state.filter).toUpperCase(),
+          });
   }
   this._radioTuner?.classList.toggle('is-static', Boolean(state.tuningStatic));
   if (tunerAvailable) this._refreshRadioTunerBand?.();
@@ -176,7 +191,7 @@ export function renderRadioState(state) {
 
   if (this._radioStationName)
     this._radioStationName.textContent =
-      selected?.name || 'NO STATION SELECTED';
+      selected?.name || translate('ui.no_station_selected');
   if (this._radioStationMeta) {
     const place = selected
       ? [selected.state, selected.countryCode].filter(Boolean).join(' · ')
@@ -188,15 +203,15 @@ export function renderRadioState(state) {
       : '';
     this._radioStationMeta.textContent = selected
       ? [place, signal].filter(Boolean).join('  /  ') ||
-        'Directory metadata only'
+        translate('ui.directory_metadata_only')
       : state.loading
-        ? 'Loading station directory…'
-        : 'Choose a globe marker or use next.';
+        ? translate('ui.loading_station_directory')
+        : translate('ui.choose_a_globe_marker_or_use_next');
   }
   if (this._radioStationTags) {
     const tags = Array.isArray(selected?.tags) ? selected.tags.slice(0, 8) : [];
     this._radioStationTags.textContent = tags.length
-      ? `TAGS · ${tags.join(' · ')}`
+      ? translate('ui.tags_p0', { p0: tags.join(' · ') })
       : '';
   }
   if (this._radioStationHomepage) {
@@ -229,7 +244,10 @@ export function renderRadioState(state) {
     this._radioPlayBtn.textContent = action.toUpperCase();
     this._radioPlayBtn.setAttribute(
       'aria-label',
-      `${action} ${selected ? 'selected' : 'nearest'} radio station`,
+      translate('ui.p0_p1_radio_station', {
+        p0: action,
+        p1: selected ? 'selected' : 'nearest',
+      }),
     );
   }
   if (this._contextRadioMiniPlayBtn) {
@@ -243,7 +261,10 @@ export function renderRadioState(state) {
     this._contextRadioMiniPlayBtn.textContent = activePlayback ? 'Ⅱ' : '▶';
     this._contextRadioMiniPlayBtn.setAttribute(
       'aria-label',
-      `${action} ${selected ? 'selected' : 'nearest'} radio station`,
+      translate('ui.p0_p1_radio_station', {
+        p0: action,
+        p1: selected ? 'selected' : 'nearest',
+      }),
     );
     this._contextRadioMiniPlayBtn.title = action;
   }
@@ -258,7 +279,10 @@ export function renderRadioState(state) {
     this._cockpitRadioPlayBtn.textContent = activePlayback ? 'Ⅱ' : '▶';
     this._cockpitRadioPlayBtn.setAttribute(
       'aria-label',
-      `${action} ${selected ? 'selected' : 'nearest'} radio station`,
+      translate('ui.p0_p1_radio_station', {
+        p0: action,
+        p1: selected ? 'selected' : 'nearest',
+      }),
     );
     this._cockpitRadioPlayBtn.title = action;
   }
@@ -295,13 +319,17 @@ export function renderRadioState(state) {
   }
   if (this._contextRadioMiniStation) {
     this._contextRadioMiniStation.textContent = uncertain
-      ? 'RADIO STATE UNCERTAIN'
-      : selected?.name || (state.loading ? 'SYNCING DIRECTORY' : 'RADIO READY');
+      ? translate('ui.radio_state_uncertain')
+      : selected?.name ||
+        (state.loading
+          ? translate('ui.syncing_directory')
+          : translate('ui.radio_ready'));
   }
   if (this._cockpitRadioStation) {
     this._cockpitRadioStation.textContent = uncertain
-      ? 'UNCERTAIN'
-      : selected?.name || (state.loading ? 'SYNCING' : 'READY');
+      ? translate('ui.uncertain')
+      : selected?.name ||
+        (state.loading ? translate('ui.syncing') : translate('ui.ready'));
   }
   if (this._radioPlaybackState) {
     const catalogSuffix = state.degraded

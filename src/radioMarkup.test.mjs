@@ -1,7 +1,7 @@
 import { readRealtimeSource } from './testSupport/readRealtimeSource.mjs';
 import { GEV_REALTIME_TOOLS } from '../server/providers/openai/tools.js';
 import { readShellSource } from './testSupport/readShellSource.mjs';
-import { expandApplicationHtml } from '../build/application-html.js';
+import { expandApplicationHtml } from './testSupport/legacyApplicationHtml.mjs';
 import { readLayerSource } from './testSupport/readLayerSource.mjs';
 import { readStylesheet } from './testSupport/readStylesheet.mjs';
 import { readFileSync as readRadioSource } from 'node:fs';

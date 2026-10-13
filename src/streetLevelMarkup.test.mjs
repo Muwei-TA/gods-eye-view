@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { expandApplicationHtml } from '../build/application-html.js';
+import { expandApplicationHtml } from './testSupport/legacyApplicationHtml.mjs';
 import { readStylesheet } from './testSupport/readStylesheet.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');

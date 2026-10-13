@@ -1,3 +1,4 @@
+import { translate, localizeLabel } from './i18n/core.js';
 import { createSurfaceKeyboard } from './ui/surfaceKeyboard.js';
 import {
   readStoredCloudVoiceAuthMode,
@@ -24,8 +25,11 @@ import {
 export function keySetupChipLabel(status) {
   const missing = Math.max(0, (status?.total || 0) - (status?.setCount || 0));
   return missing > 0
-    ? `POWER UP · ${missing} ${missing === 1 ? 'KEY' : 'KEYS'} WAITING`
-    : 'POWERED UP';
+    ? translate('keys.waiting', {
+        count: missing,
+        noun: translate(missing === 1 ? 'keys.one' : 'keys.many'),
+      })
+    : translate('keys.ready');
 }
 
 /**
@@ -116,12 +120,19 @@ function updateCloudVoiceAuthControl(auth, busy = false) {
   const state = auth.querySelector('.key-setup-cloud-auth-state');
   const toggle = auth.querySelector('[data-cloud-voice-auth-toggle]');
   state.textContent =
-    mode === 'oauth' ? 'VOICE AUTH · CHATGPT OAUTH' : 'VOICE AUTH · API KEY';
-  toggle.textContent = mode === 'oauth' ? 'USE API KEY' : 'USE CHATGPT OAUTH';
+    mode === 'oauth'
+      ? translate('ui.voice_auth_chatgpt_oauth')
+      : translate('ui.voice_auth_api_key');
+  toggle.textContent =
+    mode === 'oauth'
+      ? translate('ui.use_api_key')
+      : translate('ui.use_chatgpt_oauth');
   toggle.title =
     mode === 'oauth'
-      ? 'Use OPENAI_API_KEY for the next cloud voice session'
-      : 'Use the signed-in local ChatGPT/Codex OAuth session for the next cloud voice session';
+      ? translate('ui.use_openai_api_key_for_the_next_cloud_voice_session')
+      : translate(
+          'ui.use_the_signed_in_local_chatgpt_codex_oauth_session_for_the_next_cloud',
+        );
   // Keep the control focusable while the delegated handler blocks repeats.
   toggle.setAttribute('aria-disabled', String(busy));
 }
@@ -147,15 +158,16 @@ function buildRow(documentRef, key) {
   tier.textContent = TIER_DOTS[key.tier] || '';
   tier.title =
     key.tier === 'metered'
-      ? 'Metered — a billing-enabled account'
-      : 'Free key — register, paste, done';
+      ? translate('ui.metered_a_billing_enabled_account')
+      : translate('ui.free_key_register_paste_done');
   head.append(led, title, tier);
   if (key.clientExposed) {
     const exposed = documentRef.createElement('span');
     exposed.className = 'key-setup-exposed';
-    exposed.textContent = 'browser-side';
-    exposed.title =
-      'This key runs in the browser by design — restrict it at the provider (see SECURITY.md)';
+    exposed.textContent = translate('ui.browser_side');
+    exposed.title = translate(
+      'ui.this_key_runs_in_the_browser_by_design_restrict_it_at_the_provider_see',
+    );
     head.append(exposed);
   }
   if (external) {
@@ -163,9 +175,10 @@ function buildRow(documentRef, key) {
     // facts this panel reports, never values it rewrites or deletes.
     const badge = documentRef.createElement('span');
     badge.className = 'key-setup-external';
-    badge.textContent = 'configured externally';
-    badge.title =
-      'Supplied by your environment, Keychain, or launcher — change it where it was set';
+    badge.textContent = translate('ui.configured_externally');
+    badge.title = translate(
+      'ui.supplied_by_your_environment_keychain_or_launcher_change_it_where_it_w',
+    );
     head.append(badge);
   }
   const get = documentRef.createElement('a');
@@ -173,12 +186,12 @@ function buildRow(documentRef, key) {
   get.href = key.getUrl;
   get.target = '_blank';
   get.rel = 'noopener noreferrer';
-  get.textContent = key.set ? 'MANAGE ↗' : 'GET KEY ↗';
+  get.textContent = key.set ? translate('ui.manage') : translate('ui.get_key');
   head.append(get);
 
   const unlocks = documentRef.createElement('p');
   unlocks.className = 'key-setup-unlocks';
-  unlocks.textContent = key.unlocks;
+  unlocks.textContent = localizeLabel(key.unlocks);
 
   row.append(head, unlocks);
   if (!external) {
@@ -194,8 +207,8 @@ function buildRow(documentRef, key) {
       input.dataset.envVar = envVar;
       input.setAttribute('aria-label', envVar);
       input.placeholder = key.set
-        ? `${envVar} saved — paste to replace`
-        : `paste ${envVar}`;
+        ? translate('ui.p0_saved_paste_to_replace', { p0: envVar })
+        : translate('ui.paste_p0', { p0: envVar });
       fields.append(input);
     }
     if (key.managed === 'file') {
@@ -203,8 +216,10 @@ function buildRow(documentRef, key) {
       remove.type = 'button';
       remove.className = 'key-setup-remove';
       remove.dataset.keySetupRemove = JSON.stringify(key.envVars);
-      remove.textContent = 'REMOVE';
-      remove.title = `Remove ${key.title} from this app's saved keys`;
+      remove.textContent = translate('ui.remove');
+      remove.title = translate('ui.remove_p0_from_this_app_s_saved_keys', {
+        p0: key.title,
+      });
       fields.append(remove);
     }
     row.append(fields);
@@ -314,7 +329,9 @@ export async function initKeySetup({
     if (disposed) return;
     status = nextStatus;
     chipLabel.textContent = keySetupChipLabel(status);
-    chip.title = `Project keys: ${keySetupChipLabel(status)}`;
+    chip.title = translate('ui.project_keys_p0', {
+      p0: keySetupChipLabel(status),
+    });
     chip.setAttribute('aria-label', chip.title);
     // Fully powered is the owner's clean screen: the chip retires. The dialog
     // stays reachable this session (and via ?setup=1) to swap or verify keys.

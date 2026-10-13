@@ -1,3 +1,4 @@
+import { translate } from './i18n/core.js';
 import { createSurfaceKeyboard } from './ui/surfaceKeyboard.js';
 
 // First-run mission launcher.
@@ -35,9 +36,9 @@ export const FIRST_RUN_SESSION_KEY = 'gev:first-run-mission-session:v1';
 export const ENVIRONMENTAL_LABEL_CHOICE = 'ENVIRONMENTAL';
 
 const ENVIRONMENTAL_LABELS = Object.freeze({
-  ENVIRONMENTAL: Object.freeze({ title: 'ENVIRONMENTAL' }),
-  EARTH_WATCH: Object.freeze({ title: 'EARTH WATCH' }),
-  ACTIVE_EVENTS: Object.freeze({ title: 'ACTIVE EVENTS' }),
+  ENVIRONMENTAL: Object.freeze({ title: translate('ui.environmental') }),
+  EARTH_WATCH: Object.freeze({ title: translate('ui.earth_watch') }),
+  ACTIVE_EVENTS: Object.freeze({ title: translate('ui.active_events') }),
 });
 
 /**
@@ -92,12 +93,12 @@ export const FIRST_RUN_MISSIONS = Object.freeze({
   contacts: Object.freeze({
     kind: 'context',
     contextMode: 'contacts',
-    busyText: 'Starting live contacts…',
+    busyText: translate('ui.starting_live_contacts'),
   }),
   'space-missions': Object.freeze({
     kind: 'context',
     contextMode: 'space-missions',
-    busyText: 'Opening space missions…',
+    busyText: translate('ui.opening_space_missions'),
   }),
   environmental: Object.freeze({
     kind: 'globe',
@@ -115,7 +116,7 @@ export const FIRST_RUN_MISSIONS = Object.freeze({
     // before a launch. LEDGERED post-launch. Until it lands, keyless visitors
     // are judged on the layer row, which tells them the truth.
     layerIds: Object.freeze(['earthquakes', 'local-firms']),
-    busyText: 'Scanning active events…',
+    busyText: translate('ui.scanning_active_events'),
   }),
   explore: Object.freeze({ kind: 'none' }),
 });
@@ -443,7 +444,8 @@ export function initFirstRunExperience({
       button.setAttribute('aria-disabled', String(next));
     if (!status) return;
     if (next)
-      status.textContent = FIRST_RUN_MISSIONS[choice]?.busyText || 'Working…';
+      status.textContent =
+        FIRST_RUN_MISSIONS[choice]?.busyText || translate('ui.working');
     else if (status.dataset.sticky !== 'true')
       status.textContent = defaultStatus;
   };
@@ -493,7 +495,10 @@ export function initFirstRunExperience({
       Array.isArray(failed) && failed.length ? ` (${failed.join(', ')})` : '';
     if (status) {
       status.dataset.sticky = 'true';
-      status.textContent = `Could not open that mission${detail}. Retry or explore manually.`;
+      status.textContent = translate(
+        'ui.could_not_open_that_mission_p0_retry_or_explore_manually',
+        { p0: detail },
+      );
     }
     setBusy(false);
   };
@@ -509,8 +514,9 @@ export function initFirstRunExperience({
     if (box) box.checked = !wanted;
     if (!status) return;
     status.dataset.sticky = 'true';
-    status.textContent =
-      'This browser is blocking storage, so that could not be saved.';
+    status.textContent = translate(
+      'ui.this_browser_is_blocking_storage_so_that_could_not_be_saved',
+    );
   };
 
   const keyboard = createSurfaceKeyboard({

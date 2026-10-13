@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Count rendered globe frames while the optional readout is visible. */
 export function createFrameRateMonitor({ viewer, documentRef = document }) {
   const host = documentRef.getElementById('title-bar');
@@ -7,8 +8,8 @@ export function createFrameRateMonitor({ viewer, documentRef = document }) {
   const readout = documentRef.createElement('div');
   readout.className = 'frame-rate-readout';
   readout.hidden = true;
-  readout.textContent = 'FPS —';
-  readout.title = 'Rendered globe frames per second · toggle with `';
+  readout.textContent = translate('ui.fps');
+  readout.title = translate('ui.rendered_globe_frames_per_second_toggle_with');
   host.appendChild(readout);
   let removeFrameListener = null;
   let timer = null;
@@ -27,7 +28,7 @@ export function createFrameRateMonitor({ viewer, documentRef = document }) {
   function show() {
     frames = 0;
     startedAt = performance.now();
-    readout.textContent = 'FPS —';
+    readout.textContent = translate('ui.fps');
     readout.hidden = false;
     removeFrameListener = frameEvent.addEventListener(() => {
       frames++;
@@ -37,8 +38,10 @@ export function createFrameRateMonitor({ viewer, documentRef = document }) {
       const elapsed = now - startedAt;
       readout.textContent =
         documentRef.hidden || elapsed <= 0
-          ? 'FPS —'
-          : `FPS ${Math.round((frames * 1000) / elapsed)}`;
+          ? translate('ui.fps')
+          : translate('ui.fps_p0', {
+              p0: Math.round((frames * 1000) / elapsed),
+            });
       frames = 0;
       startedAt = now;
     }, 1000);

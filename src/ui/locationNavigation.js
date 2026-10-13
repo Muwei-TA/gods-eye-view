@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import * as Cesium from 'cesium';
 import { createStateChannel } from '../app/stateChannel.js';
 import { LocationControls } from './location.js';
@@ -87,8 +88,10 @@ export class LocationNavigation {
       this._currentPoi = null;
       this._collapsePOIRow();
       this._updateLocationMiniStatus();
-    } else if (change.type === 'missing') this._showToast('Location not found');
-    else if (change.type === 'failed') this._showToast('Search failed');
+    } else if (change.type === 'missing')
+      this._showToast(translate('ui.location_not_found'));
+    else if (change.type === 'failed')
+      this._showToast(translate('ui.search_failed'));
     else if (change.type === 'settled')
       this._settleLocationSearchUi(change.generation);
     else if (
@@ -117,7 +120,7 @@ export class LocationNavigation {
         }),
       onResult: (destination) => {
         if (destination.outlineUnavailable)
-          this._showToast('Detailed outline unavailable');
+          this._showToast(translate('ui.detailed_outline_unavailable'));
       },
       onError: (error) => console.error('[Search] Geocoding failed:', error),
     });
@@ -277,7 +280,7 @@ export class LocationNavigation {
 
   _toggleOrbit() {
     if (!this._currentTarget) {
-      this._showToast('Fly to a POI first');
+      this._showToast(translate('ui.fly_to_a_poi_first'));
       return;
     }
 

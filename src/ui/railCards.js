@@ -1,3 +1,4 @@
+import { localizeLabel } from '../i18n/core.js';
 import { createRailCardBlocks } from './railCardBlocks.js';
 
 const set = (node, key, value) => {
@@ -85,9 +86,9 @@ export function createRailCards({
           };
           rows.set(card.id, row);
         }
-        set(row.title, 'textContent', card.title);
-        if (row.title.getAttribute('title') !== card.title)
-          row.title.setAttribute('title', card.title);
+        set(row.title, 'textContent', localizeLabel(card.title));
+        if (row.title.getAttribute('title') !== localizeLabel(card.title))
+          row.title.setAttribute('title', localizeLabel(card.title));
         set(row.icon, 'textContent', card.icon || '');
         set(row.icon, 'hidden', !card.icon);
         set(row.badge, 'textContent', card.badge || '');

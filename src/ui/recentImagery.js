@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /**
  * Recent Imagery readout for the right rail (`#recent-imagery-panel`). The
  * body is a fixed stack in which no block changes height and no control
@@ -173,7 +174,7 @@ export function createRecentImageryPanel({
 
   // ---- build: every block exists from the start, in its final order ----
   const root = el('section', 'recent-imagery-readout');
-  root.setAttribute('aria-label', 'Recent imagery');
+  root.setAttribute('aria-label', translate('ui.recent_imagery_cbb801'));
 
   const actionsHost = el('div', 'ri-block ri-actions-row', root);
   actionsHost.id = 'ri-actions';
@@ -194,7 +195,7 @@ export function createRecentImageryPanel({
   const zoomIn = el('button', 'data-toggle-chip ri-zoom-in', notice, 'ZOOM IN');
   zoomIn.id = 'ri-zoom-in';
   zoomIn.type = 'button';
-  zoomIn.title = 'Fly in until the view fits the 1,000 km limit';
+  zoomIn.title = translate('ui.fly_in_until_the_view_fits_the_1_000_km_limit');
 
   const strip = el('div', 'ri-block ri-strip', root);
   strip.id = 'ri-strip';
@@ -203,7 +204,7 @@ export function createRecentImageryPanel({
   strip.setAttribute('aria-orientation', 'horizontal');
   strip.setAttribute(
     'aria-label',
-    'Imagery days, newest first · arrows move, S or A and B pin',
+    translate('ui.imagery_days_newest_first_arrows_move_s_or_a_and_b_pin'),
   );
   strip.setAttribute('aria-keyshortcuts', 'A B S');
   const stripEmpty = el('div', 'ri-strip-empty', strip);
@@ -213,11 +214,11 @@ export function createRecentImageryPanel({
 
   const selection = el('section', 'ri-block ri-selection', root);
   selection.id = 'ri-selection';
-  selection.setAttribute('aria-label', 'On the map');
+  selection.setAttribute('aria-label', translate('ui.on_the_map'));
   const modeGroup = el('div', 'ri-mode', selection);
   modeGroup.id = 'ri-mode';
   modeGroup.setAttribute('role', 'radiogroup');
-  modeGroup.setAttribute('aria-label', 'Mode');
+  modeGroup.setAttribute('aria-label', translate('ui.mode'));
   const modeButtons = new Map(
     MODE_LABELS.map(([mode, label]) => {
       const node = el('button', 'data-toggle-chip ri-mode-btn', modeGroup);
@@ -255,13 +256,13 @@ export function createRecentImageryPanel({
     step: '1',
     value: '100',
   });
-  opacity.setAttribute('aria-label', 'Imagery opacity');
+  opacity.setAttribute('aria-label', translate('ui.imagery_opacity'));
   opacityLabel.htmlFor = 'ri-opacity';
   // Its slot is always there; it is only usable while a swipe is live.
   const swap = el('button', 'data-toggle-chip ri-swap', controls, 'SWAP');
   swap.id = 'ri-swap';
   swap.type = 'button';
-  swap.title = 'Trade the two sides of the divider';
+  swap.title = translate('ui.trade_the_two_sides_of_the_divider');
   const exportHost = el('div', 'ri-exports', controls);
   const exports = createRailCardBlocks({
     container: exportHost,
@@ -318,8 +319,8 @@ export function createRecentImageryPanel({
         actions: [
           {
             id: 'select-box',
-            label: 'SELECT BOX',
-            title: 'Drag a box on the map (Esc cancels)',
+            label: translate('ui.select_box'),
+            title: translate('ui.drag_a_box_on_the_map_esc_cancels'),
             onClick: () => {
               exportError = null;
               if (tool?.isActive()) tool.cancel('toggle');
@@ -328,8 +329,8 @@ export function createRecentImageryPanel({
           },
           {
             id: 'use-view',
-            label: 'USE VIEW',
-            title: 'Use the current view as the box',
+            label: translate('ui.use_view'),
+            title: translate('ui.use_the_current_view_as_the_box'),
             onClick: () => {
               exportError = null;
               layer.useCurrentView(viewer);
@@ -337,8 +338,8 @@ export function createRecentImageryPanel({
           },
           {
             id: 'clear',
-            label: 'CLEAR',
-            title: 'Forget the box and its images',
+            label: translate('ui.clear'),
+            title: translate('ui.forget_the_box_and_its_images'),
             disabled: !snapshot.box && !snapshot.boxError,
             onClick: () => {
               exportError = null;
@@ -658,8 +659,12 @@ export function createRecentImageryPanel({
         type: 'actions',
         actions: ['a', 'b'].map((slotId) => ({
           id: `export-${slotId}`,
-          label: ab ? `EXPORT ${slotId.toUpperCase()}` : 'EXPORT',
-          title: `Download ${ab ? slotId.toUpperCase() : 'the image'} as a PNG`,
+          label: ab
+            ? translate('ui.export_p0', { p0: slotId.toUpperCase() })
+            : translate('ui.export'),
+          title: translate('ui.download_p0_as_a_png', {
+            p0: ab ? slotId.toUpperCase() : 'the image',
+          }),
           disabled: !exportTarget(slotId) || exporting.has(slotId),
           onClick: () => void exportImage(slotId),
         })),
@@ -735,7 +740,7 @@ export function createRecentImageryPanel({
     details.update([
       {
         id: 'details',
-        title: 'Details',
+        title: translate('ui.details'),
         open: detailsOpen,
         compact: snapshot.focus ? snapshot.readout : 'Times, coverage, sources',
         blocks: [
@@ -747,9 +752,9 @@ export function createRecentImageryPanel({
               {
                 id: 'toggle-empty',
                 label: showing
-                  ? 'HIDE EMPTY DAYS'
-                  : `SHOW EMPTY DAYS · ${hidden}`,
-                title: 'Days the probe found empty in this box',
+                  ? translate('ui.hide_empty_days')
+                  : translate('ui.show_empty_days_p0', { p0: hidden }),
+                title: translate('ui.days_the_probe_found_empty_in_this_box'),
                 disabled: !showing && !hidden,
                 onClick: () => layer.setShowUnavailable(!showing),
               },

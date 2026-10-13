@@ -1,3 +1,4 @@
+import { translate, localizeLabel } from './i18n/core.js';
 import { readShellSource, shellMethod } from './testSupport/readShellSource.mjs';
 import { expandApplicationHtml } from '../build/application-html.js';
 import { StyleManager } from './ui/applicationShell.js';
@@ -107,9 +108,9 @@ function harness({ hidden = false, selected = true, noChips = false } = {}) {
   window.clearTimeout = (id) => timers.delete(id);
   window.performance = { now: () => now };
   document.defaultView = window;
-  const methods = new Function('createHoverDisclosure', 'collapsePanelOnEscape', 'document', 'window', 'clearTimeout', 'performance', 'requestAnimationFrame',
+  const methods = new Function('createHoverDisclosure', 'collapsePanelOnEscape', 'document', 'window', 'clearTimeout', 'performance', 'requestAnimationFrame', 'translate', 'localizeLabel',
     `return ({${shellMethod('_initAutoHoverPanel').toString()},\n${shellMethod('_collapsePanelOnEscape').toString()},\n${shellMethod('setPanelCollapsed').toString()},\n${shellMethod('_syncPanelCollapseButton').toString()}});`)(
-    createHoverDisclosure, collapsePanelOnEscape, document, window, (id) => timers.delete(id), { now: () => now }, () => {},
+    createHoverDisclosure, collapsePanelOnEscape, document, window, (id) => timers.delete(id), { now: () => now }, () => {}, translate, localizeLabel,
   );
   const saves = [];
   const claims = [];

@@ -1,3 +1,4 @@
+import { translate, localizeLabel } from '../i18n/core.js';
 import { renderMapStackChips, syncMapStackChips } from '../mapStackChips.js';
 
 /**
@@ -28,7 +29,8 @@ export function createMapSourceControls({
       statusElement.textContent =
         state.status === 'switching'
           ? '...'
-          : stack?.shortLabel || stack?.label || 'MAP';
+          : localizeLabel(stack?.shortLabel || stack?.label) ||
+            translate('ui.map');
       statusElement.classList.toggle('warn', !!state.lastError);
     }
   }

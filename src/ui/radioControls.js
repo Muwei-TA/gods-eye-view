@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import { bindRadioControls } from './radioBindings.js';
 import { renderRadioState } from './radioPresentation.js';
 
@@ -201,9 +202,12 @@ export class RadioControls {
     const action = compactOpen ? 'Close' : 'Open';
     this._contextRadioToggleBtn.setAttribute(
       'aria-label',
-      `${action} compact Radio controls`,
+      translate('ui.p0_compact_radio_controls', { p0: action }),
     );
-    this._contextRadioToggleBtn.title = `${action} compact Radio controls`;
+    this._contextRadioToggleBtn.title = translate(
+      'ui.p0_compact_radio_controls',
+      { p0: action },
+    );
   }
 
   destroy() {

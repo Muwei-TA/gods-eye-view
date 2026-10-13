@@ -1,4 +1,4 @@
-import { expandApplicationHtml } from '../build/application-html.js';
+import { expandApplicationHtml } from './testSupport/legacyApplicationHtml.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -26,6 +26,6 @@ test('the first-run checkbox keeps its native visible label', () => {
 });
 
 test('generated style sliders use the visible parameter label as their name', () => {
-  assert.match(parameters, /label\.textContent\s*=\s*metadata\.label;/);
-  assert.match(parameters, /slider\.setAttribute\(['"]aria-label['"],\s*metadata\.label\)/);
+  assert.match(parameters, /label\.textContent\s*=\s*localizeLabel\(metadata\.label\);/);
+  assert.match(parameters, /slider\.setAttribute\(['"]aria-label['"],\s*localizeLabel\(metadata\.label\)\)/);
 });

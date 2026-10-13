@@ -30,3 +30,12 @@ test('messages preserve literal parameters and fall back to English', async () =
   assert.equal(translate('language.label', {}, 'unknown'), 'Language');
   assert.equal(translate('missing.key', {}, 'zh-CN'), 'missing.key');
 });
+
+test('catalog labels are translated without rewriting external data', async () => {
+  const { localizeLabel } = await import('./core.js');
+  assert.equal(localizeLabel('Live Vessels', 'zh-CN'), '实时船舶');
+  assert.equal(
+    localizeLabel('Custom station 123', 'zh-CN'),
+    'Custom station 123',
+  );
+});

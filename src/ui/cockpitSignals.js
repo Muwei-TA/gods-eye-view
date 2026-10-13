@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Reconcile actionable signal rows without disturbing native keyboard focus. */
 
 export function renderCockpitSignals() {
@@ -169,7 +170,10 @@ export function updateCockpitSignals(snapshot, unknownCount) {
     nextItems.splice(4, Math.max(0, nextItems.length - 4), {
       key: 'input-status',
       tone: 'warning',
-      title: `${unknownCount} INPUT${unknownCount === 1 ? '' : 'S'} UNKNOWN`,
+      title: translate('ui.p0_input_p1_unknown', {
+        p0: unknownCount,
+        p1: unknownCount === 1 ? '' : translate('grammar.plural_S'),
+      }),
       detail: sources || 'SOURCE STATUS UNAVAILABLE',
       target: null,
       timestamp:

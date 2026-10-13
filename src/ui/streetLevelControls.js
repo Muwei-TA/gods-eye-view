@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import { syncChipGroup } from './chipGroup.js';
 import { isExplicitLayerStateOrigin } from '../data/layerState.js';
 import {
@@ -311,7 +312,7 @@ export class StreetLevelControls {
       wrap.classList.add('sl-viewer-wrap-expanded');
       wrap.setAttribute('role', 'dialog');
       wrap.setAttribute('aria-modal', 'true');
-      wrap.setAttribute('aria-label', 'Street-level image');
+      wrap.setAttribute('aria-label', translate('ui.street_level_image'));
       wrap.tabIndex = -1;
       wrap.focus({ preventScroll: true });
       this._watchModal(true);
@@ -343,9 +344,13 @@ export class StreetLevelControls {
       const icon = button.querySelector('.sl-btn-icon');
       const text = button.querySelector('.sl-btn-text');
       if (icon) icon.textContent = on ? '⤡' : '⤢';
-      if (text) text.textContent = on ? 'SHRINK' : 'EXPAND';
+      if (text)
+        text.textContent = on ? translate('ui.shrink') : translate('ui.expand');
       button.setAttribute('aria-pressed', String(on));
-      button.setAttribute('aria-label', on ? 'Shrink' : 'Expand');
+      button.setAttribute(
+        'aria-label',
+        on ? translate('ui.shrink_33435b') : translate('ui.expand_07548c'),
+      );
     }
     if (!on && dock) this.actions.dockPanel?.();
     this._requestResize();

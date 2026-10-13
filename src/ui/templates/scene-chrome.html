@@ -2,7 +2,7 @@
   <div id="world-overlay-root" aria-hidden="true">
     <canvas id="world-overlay-canvas"></canvas>
   </div>
-  <div id="world-overlay-actions" class="world-overlay-accessibility" role="region" aria-label="Visible map targets">
+  <div id="world-overlay-actions" class="world-overlay-accessibility" role="region" aria-label="Visible map targets" data-i18n-aria-label="ui.visible_map_targets">
     <div id="world-overlay-action-list"></div>
     <div id="world-overlay-status" role="status" aria-live="polite" aria-atomic="true"></div>
   </div>
@@ -10,8 +10,8 @@
   <!-- Title -->
   <div id="title-bar">
     <div class="title-glow"></div>
-    <h1><span class="title-logo brand-logo" data-logo-gaze data-logo-src="/logo.svg" aria-hidden="true"><img src="/logo.svg" alt="" /></span> <span>GOD'S EYE <span class="title-accent">VIEW</span></span></h1>
-    <p class="subtitle">NO PLACE LEFT BEHIND</p>
+    <h1><span class="title-logo brand-logo" data-logo-gaze data-logo-src="/logo.svg" aria-hidden="true"><img src="/logo.svg" alt="" /></span> <span>GOD'S EYE <span class="title-accent" data-i18n="ui.view">VIEW</span></span></h1>
+    <p class="subtitle" data-i18n="ui.no_place_left_behind">NO PLACE LEFT BEHIND</p>
   </div>
 
   <label id="language-control" for="language-select">
@@ -24,39 +24,39 @@
 
   <!-- Style indicator -->
   <div id="style-indicator">
-    <span class="indicator-label">ACTIVE STYLE</span>
-    <span class="indicator-value" id="active-style-name">NORMAL</span>
+    <span class="indicator-label" data-i18n="ui.active_style">ACTIVE STYLE</span>
+    <span class="indicator-value" id="active-style-name" data-i18n="ui.normal">NORMAL</span>
   </div>
 
   <!-- Top-center camera and share actions -->
-  <nav id="top-center-actions" aria-label="Globe actions">
-    <button id="clear-selected-layers" type="button" aria-label="Clear selected data layers" title="Turn off all selected data layers">
+  <nav id="top-center-actions" aria-label="Globe actions" data-i18n-aria-label="ui.globe_actions">
+    <button id="clear-selected-layers" type="button" aria-label="Clear selected data layers" title="Turn off all selected data layers" data-i18n-title="ui.turn_off_all_selected_data_layers" data-i18n-aria-label="ui.clear_selected_data_layers">
       <span class="material-symbols-outlined" aria-hidden="true">layers_clear</span>
     </button>
-    <button id="share-btn" type="button" aria-label="Copy share link" title="Copy share link">
+    <button id="share-btn" type="button" aria-label="Copy share link" title="Copy share link" data-i18n-title="ui.copy_share_link" data-i18n-aria-label="ui.copy_share_link">
       <span class="share-icon" aria-hidden="true">&#x1F517;</span>
     </button>
-    <button id="tilt-map-view" type="button" aria-label="Tilt map to oblique view" aria-pressed="false" title="Toggle straight-down and tilted map views">
+    <button id="tilt-map-view" type="button" aria-label="Tilt map to oblique view" aria-pressed="false" title="Toggle straight-down and tilted map views" data-i18n-title="ui.toggle_straight_down_and_tilted_map_views" data-i18n-aria-label="ui.tilt_map_to_oblique_view">
       <span class="material-symbols-outlined" aria-hidden="true">view_in_ar</span>
     </button>
-    <button id="north-up-view" type="button" aria-label="Reset map to north up" title="Reset map bearing to north">
+    <button id="north-up-view" type="button" aria-label="Reset map to north up" title="Reset map bearing to north" data-i18n-title="ui.reset_map_bearing_to_north" data-i18n-aria-label="ui.reset_map_to_north_up">
       <span class="camera-compass-n" aria-hidden="true">N</span>
       <span class="camera-compass-needle material-symbols-outlined" aria-hidden="true">navigation</span>
     </button>
-    <button id="reset-globe-view" type="button" aria-label="Reset to full globe view" title="Reset camera and return to full globe view">
+    <button id="reset-globe-view" type="button" aria-label="Reset to full globe view" title="Reset camera and return to full globe view" data-i18n-title="ui.reset_camera_and_return_to_full_globe_view" data-i18n-aria-label="ui.reset_to_full_globe_view">
       <span class="material-symbols-outlined" aria-hidden="true">public</span>
     </button>
   </nav>
   <div id="global-loading-status" role="status" aria-live="polite" aria-atomic="true" hidden>
-    <span id="global-loading-label">LOADING LIVE DATA</span>
+    <span id="global-loading-label" data-i18n="ui.loading_live_data">LOADING LIVE DATA</span>
     <span id="global-loading-detail"></span>
   </div>
   <div id="traffic-sync-chip" aria-live="polite">
-    <span id="traffic-sync-label">syncing road network</span>
+    <span id="traffic-sync-label" data-i18n="ui.syncing_road_network">syncing road network</span>
     <span id="traffic-sync-progress">0%</span>
   </div>
   <div id="cctv-sync-chip" aria-live="polite">
-    <span id="cctv-sync-label">loading frames</span>
+    <span id="cctv-sync-label" data-i18n="ui.loading_frames">loading frames</span>
     <span id="cctv-sync-progress">0/0</span>
   </div>
 

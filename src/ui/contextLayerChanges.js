@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import {
   cockpitEntryAllowed,
   isExplicitUserIntentOrigin,
@@ -84,7 +85,7 @@ export function _handleContextLayerChange(change) {
     ) {
       this.showToast(
         change.reason ||
-          'That layer is unavailable in the current Context mode',
+          translate('ui.that_layer_is_unavailable_in_the_current_context_mode'),
       );
     }
     this._syncContextModeButtons();

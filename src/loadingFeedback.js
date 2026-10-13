@@ -1,3 +1,4 @@
+import { translate } from './i18n/core.js';
 import { installationFeedback } from './data/installationFeedback.js';
 
 export const LOADING_REVEAL_DELAY_MS = 160;
@@ -244,7 +245,7 @@ export function reduceTrafficSyncFeedback(
       // Neutral default: the layer always supplies its own LIVE/SIMULATED
       // label, and a fallback string must never claim a live feed on a
       // keyless build.
-      label: label || 'syncing road network',
+      label: label || translate('ui.syncing_road_network'),
       progressText: hasProgress ? `${progressPct}%` : '...',
     };
   }
@@ -439,8 +440,8 @@ export function presentLoadingFeedback(state, summary, nowMs) {
     return {
       state: 'loading',
       label: active[0].cameraRetry.retrying
-        ? 'RETRYING ALPR CAMERAS'
-        : 'FETCHING ALPR CAMERAS',
+        ? translate('ui.retrying_alpr_cameras')
+        : translate('ui.fetching_alpr_cameras'),
       detail: 'OpenStreetMap · Overpass',
     };
   }
@@ -453,8 +454,8 @@ export function presentLoadingFeedback(state, summary, nowMs) {
     return {
       state: 'loading',
       label: active[0].installationRetry.retrying
-        ? 'RETRYING MAPPED SITES'
-        : 'FETCHING MAPPED SITES',
+        ? translate('ui.retrying_mapped_sites')
+        : translate('ui.fetching_mapped_sites'),
       detail: 'OpenStreetMap · Overpass',
     };
   }

@@ -1,3 +1,4 @@
+import { localizeLabel } from '../i18n/core.js';
 const set = (node, key, value) => {
   if (node[key] !== value) node[key] = value;
 };
@@ -27,7 +28,7 @@ export function syncChipGroup(container, chips = [], { before = null } = {}) {
       'className',
       `data-toggle-chip chip-${state}${chip.active ? ' active' : ''}`,
     );
-    set(button, 'textContent', chip.label);
+    set(button, 'textContent', localizeLabel(chip.label));
     // Optional per-chip colour; CSS decides how it is used.
     const color = chip.color || '';
     if ((button.dataset.chipColor || '') !== color) {
@@ -39,7 +40,7 @@ export function syncChipGroup(container, chips = [], { before = null } = {}) {
         delete button.dataset.chipColor;
       }
     }
-    set(button, 'title', chip.title || '');
+    set(button, 'title', localizeLabel(chip.title || ''));
     set(button, 'disabled', Boolean(chip.disabled));
     attribute(button, 'aria-pressed', String(Boolean(chip.active)));
     attribute(button, 'aria-busy', String(Boolean(chip.busy)));

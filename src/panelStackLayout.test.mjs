@@ -1,5 +1,5 @@
 import { readShellSource } from './testSupport/readShellSource.mjs';
-import { expandApplicationHtml } from '../build/application-html.js';
+import { expandApplicationHtml } from './testSupport/legacyApplicationHtml.mjs';
 import { readStylesheet } from './testSupport/readStylesheet.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

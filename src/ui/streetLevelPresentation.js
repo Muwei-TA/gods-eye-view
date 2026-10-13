@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import { keySetupRequirement } from '../keySetupCore.mjs';
 
 // Street Level UI state to panel strings and flags. Pure, so it is testable.
@@ -6,15 +7,15 @@ const DAY_MS = 86_400_000;
 
 /** SINCE slider stops, in relative days so a share link keeps its meaning. */
 export const SINCE_STOPS = Object.freeze([
-  Object.freeze({ days: 0, label: 'ANY DATE' }),
-  Object.freeze({ days: 3652, label: 'LAST 10 YEARS' }),
-  Object.freeze({ days: 1826, label: 'LAST 5 YEARS' }),
-  Object.freeze({ days: 1095, label: 'LAST 3 YEARS' }),
-  Object.freeze({ days: 730, label: 'LAST 2 YEARS' }),
-  Object.freeze({ days: 365, label: 'LAST YEAR' }),
-  Object.freeze({ days: 182, label: 'LAST 6 MONTHS' }),
-  Object.freeze({ days: 91, label: 'LAST 3 MONTHS' }),
-  Object.freeze({ days: 30, label: 'LAST MONTH' }),
+  Object.freeze({ days: 0, label: translate('ui.any_date') }),
+  Object.freeze({ days: 3652, label: translate('ui.last_10_years') }),
+  Object.freeze({ days: 1826, label: translate('ui.last_5_years') }),
+  Object.freeze({ days: 1095, label: translate('ui.last_3_years') }),
+  Object.freeze({ days: 730, label: translate('ui.last_2_years') }),
+  Object.freeze({ days: 365, label: translate('ui.last_year') }),
+  Object.freeze({ days: 182, label: translate('ui.last_6_months') }),
+  Object.freeze({ days: 91, label: translate('ui.last_3_months') }),
+  Object.freeze({ days: 30, label: translate('ui.last_month') }),
 ]);
 
 /** The exact stop for a day count, else the nearest one. */
@@ -34,13 +35,16 @@ export function sinceStopIndex(days) {
 function presentSince(days, now) {
   const value = Number(days) || 0;
   const index = sinceStopIndex(value);
-  if (value <= 0) return { index, days: 0, label: 'ANY DATE' };
+  if (value <= 0) return { index, days: 0, label: translate('ui.any_date') };
   const stop = SINCE_STOPS[index];
   const window = stop.days === value ? stop.label : `LAST ${value} DAYS`;
   return {
     index,
     days: value,
-    label: `${window} · SINCE ${formatDate(now - value * DAY_MS)}`,
+    label: translate('ui.p0_since_p1', {
+      p0: window,
+      p1: formatDate(now - value * DAY_MS),
+    }),
   };
 }
 
@@ -118,8 +122,12 @@ function presentViewer(state) {
       disabled: street.open !== true || street.followAvailable !== true,
       title:
         street.followAvailable === true
-          ? 'Camera follows view: move the globe camera wherever the street-level view looks'
-          : 'Camera follow needs the Google 3D map: choose Google 3D under MAP SOURCE',
+          ? translate(
+              'ui.camera_follows_view_move_the_globe_camera_wherever_the_street_level_vi',
+            )
+          : translate(
+              'ui.camera_follow_needs_the_google_3d_map_choose_google_3d_under_map_sourc',
+            ),
     },
   };
 }

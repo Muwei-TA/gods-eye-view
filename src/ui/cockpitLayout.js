@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Measure Cockpit panels against visible HUD and viewport obstacles. */
 import {
   resolveCockpitUtilityAnchor,
@@ -37,9 +38,13 @@ export function setContextCollapsed(collapsed) {
     this.contextToggle.setAttribute('aria-expanded', String(expanded));
     this.contextToggle.setAttribute(
       'aria-label',
-      `${expanded ? 'Collapse' : 'Expand'} Contact panel`,
+      translate('ui.p0_contact_panel', {
+        p0: expanded ? translate('ui.collapse') : translate('ui.expand_07548c'),
+      }),
     );
-    this.contextToggle.title = `${expanded ? 'Collapse' : 'Expand'} contact panel`;
+    this.contextToggle.title = translate('ui.p0_contact_panel_9f1561', {
+      p0: expanded ? translate('ui.collapse') : translate('ui.expand_07548c'),
+    });
     const icon = this.contextToggle.querySelector('.material-symbols-outlined');
     if (icon) icon.textContent = expanded ? 'chevron_left' : 'chevron_right';
   }
@@ -60,9 +65,13 @@ export function setSignalCollapsed(collapsed, { user = false } = {}) {
     this.signalToggle.setAttribute('aria-expanded', String(expanded));
     this.signalToggle.setAttribute(
       'aria-label',
-      `${expanded ? 'Collapse' : 'Expand'} cockpit briefing panel`,
+      translate('ui.p0_cockpit_briefing_panel', {
+        p0: expanded ? translate('ui.collapse') : translate('ui.expand_07548c'),
+      }),
     );
-    this.signalToggle.title = `${expanded ? 'Collapse' : 'Expand'} briefing panel`;
+    this.signalToggle.title = translate('ui.p0_briefing_panel', {
+      p0: expanded ? translate('ui.collapse') : translate('ui.expand_07548c'),
+    });
     const icon = this.signalToggle.querySelector('.material-symbols-outlined');
     if (icon)
       icon.textContent = expanded ? 'right_panel_close' : 'right_panel_open';

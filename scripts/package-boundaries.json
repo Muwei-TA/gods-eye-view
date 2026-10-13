@@ -314,7 +314,9 @@
       "src/voice/actionSchemas.js",
       "src/voice/layerManifest.js",
       "server/providers/openai/toolDescriptions.js",
-      "src/sources/rateLimit.js"
+      "src/sources/rateLimit.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -386,7 +388,9 @@
     "modules": [
       "src/ui/visualInput.js",
       "src/ui/applicationShortcuts.js",
-      "src/ui/styleParameters.js"
+      "src/ui/styleParameters.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -418,7 +422,9 @@
       "src/ui/mapSourceControls.js",
       "src/mapStackChips.js",
       "src/keySetupCore.mjs",
-      "src/localRequestGate.mjs"
+      "src/localRequestGate.mjs",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -439,7 +445,9 @@
       "src/keySetupCore.mjs",
       "src/localRequestGate.mjs",
       "src/data/feedState.js",
-      "src/data/layerSnapshot.js"
+      "src/data/layerSnapshot.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -461,7 +469,9 @@
       "src/ui/radioControls.js",
       "src/ui/radioBindings.js",
       "src/ui/radioPresentation.js",
-      "src/ui/radioTunerModel.js"
+      "src/ui/radioTunerModel.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -474,7 +484,9 @@
       "src/ui/cctvControls.js",
       "src/ui/cctvFrames.js",
       "src/ui/cctvVideo.js",
-      "src/ui/cctvPresentation.js"
+      "src/ui/cctvPresentation.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -492,7 +504,9 @@
       "src/ui/contextTransactions.js",
       "src/contextModePolicy.js",
       "src/rightRailPolicy.js",
-      "src/ui/panelRailGeometry.js"
+      "src/ui/panelRailGeometry.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -520,7 +534,9 @@
       "src/cockpitMath.js",
       "src/cockpitUtilityLayout.js",
       "src/cockpitVisionPolicy.js",
-      "src/ui/panelRailGeometry.js"
+      "src/ui/panelRailGeometry.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": ["cesium"]
   },
@@ -529,7 +545,9 @@
     "modules": [
       "src/ui/scenes.js",
       "src/ui/sceneControls.js",
-      "src/ui/scenePresentation.js"
+      "src/ui/scenePresentation.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -668,7 +686,9 @@
       "src/ui/localSdrControls.js",
       "src/layers/localAdsb/feedNames.js",
       "src/ui/localSdrPresentation.js",
-      "src/data/cameraArrival.js"
+      "src/data/cameraArrival.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": ["cesium"]
   },
@@ -774,7 +794,9 @@
       "src/director/authoring.js",
       "src/scenes/sharing.js",
       "src/ui/sceneSharing.js",
-      "src/data/cameraArrival.js"
+      "src/data/cameraArrival.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": ["cesium"]
   },
@@ -1394,7 +1416,9 @@
       "src/voice/narration.js",
       "src/voice/earcon.js",
       "src/voice/pointerContext.js",
-      "src/voice/pointerReticle.js"
+      "src/voice/pointerReticle.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -2198,7 +2222,9 @@
       "src/tools/functions.js",
       "src/voice/actionSchemas.js",
       "src/view/index.js",
-      "src/app/embed.js"
+      "src/app/embed.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": [
       "hls.js",
@@ -2822,7 +2848,9 @@
       "src/loadingFeedback.js",
       "src/navigationPolicy.js",
       "src/ui/shareRestoration.js",
-      "src/ui/uiLifetime.js"
+      "src/ui/uiLifetime.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -2850,7 +2878,9 @@
       "src/ui/visualEffects.js",
       "src/ui/visualInput.js",
       "src/ui/visualPresets.js",
-      "src/ui/visualSettings.js"
+      "src/ui/visualSettings.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": ["cesium"]
   },
@@ -2870,7 +2900,9 @@
       "src/ui/panelRailGeometry.js",
       "src/ui/panelRails.js",
       "src/ui/rightPanelRail.js",
-      "src/ui/uiLifetime.js"
+      "src/ui/uiLifetime.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -2993,7 +3025,9 @@
       "src/voice/referents.js",
       "src/voice/layerManifest.js",
       "src/voice/speech.js",
-      "src/voice/pointerReticle.js"
+      "src/voice/pointerReticle.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": []
   },
@@ -3365,7 +3399,9 @@
       "src/view/index.js",
       "src/tools/views.js",
       "src/tools/globePanel.js",
-      "src/tools/queries/panelRequest.js"
+      "src/tools/queries/panelRequest.js",
+      "src/i18n/core.js",
+      "src/i18n/messages.js"
     ],
     "external": ["satellite.js"]
   },

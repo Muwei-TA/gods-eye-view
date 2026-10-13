@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -13,7 +14,9 @@ test('panel presentation places Transit between Street Traffic and Bike Share in
     source.indexOf('const PANEL_POSITIONS ='),
   );
   const order = JSON.parse(
-    runInNewContext(`${declarations}\nJSON.stringify(PANEL_ORDER)`),
+    runInNewContext(`${declarations}\nJSON.stringify(PANEL_ORDER)`, {
+      translate,
+    }),
   );
   assert.deepEqual(
     order.filter(({ label }) => label === 'Movement').map(({ id }) => id),

@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Own panel position preferences, viewport clamping and drag listeners. */
 import { RESIZE_DIRECTIONS, resizeBox } from './panelResize.js';
 
@@ -221,7 +222,7 @@ export class PanelPositionControls {
       );
       if (hadOldPositions) {
         this._showToast(
-          'Panel layout updated — positions reset to new defaults',
+          translate('ui.panel_layout_updated_positions_reset_to_new_defaults'),
         );
       }
     } catch {
@@ -761,7 +762,9 @@ export class PanelPositionControls {
       handle.dataset.dir = dir;
       handle.setAttribute('aria-hidden', 'true');
       if (dir === 'se') {
-        handle.title = 'Drag to resize · double-click the header to snap back';
+        handle.title = translate(
+          'ui.drag_to_resize_double_click_the_header_to_snap_back',
+        );
       }
       panelEl.appendChild(handle);
       this._resizeHandles.push(handle);

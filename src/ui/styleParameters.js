@@ -1,3 +1,4 @@
+import { localizeLabel } from '../i18n/core.js';
 /**
  * Own generated parameter rows and their input listeners.
  * The caller supplies uniform metadata/value access and rendering/persistence
@@ -30,11 +31,11 @@ export function createStyleParameters({
         row.className = 'param-slider-row';
         const label = documentRef.createElement('span');
         label.className = 'param-label';
-        label.textContent = metadata.label;
+        label.textContent = localizeLabel(metadata.label);
         const slider = documentRef.createElement('input');
         slider.type = 'range';
         slider.className = 'param-slider';
-        slider.setAttribute('aria-label', metadata.label);
+        slider.setAttribute('aria-label', localizeLabel(metadata.label));
         slider.min = metadata.min;
         slider.max = metadata.max;
         slider.step = metadata.max <= 1 ? '0.01' : '0.1';

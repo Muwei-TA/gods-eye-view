@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 /** Pure formatting and fixed presentation constants used by Cockpit components. */
 export const COCKPIT_HEADING_SLEW_DPS = 28;
 
@@ -45,19 +46,19 @@ export const COCKPIT_BRIEF_PAGES = [
   {
     id: 'signals',
     kicker: 'LIVE SIGNALS',
-    subtitle: 'OBSERVED / MAPPED PINGS',
+    subtitle: translate('ui.observed_mapped_pings'),
     source: 'SOURCE-BACKED EVENTS · NO SYNTHETIC NEWS',
   },
   {
     id: 'news',
     kicker: 'REGIONAL NEWS',
-    subtitle: 'LATEST LOCATION-MATCHED REPORTING',
+    subtitle: translate('ui.latest_location_matched_reporting'),
     source: 'GOOGLE NEWS RSS · LOCATION QUERY · RECENT',
   },
   {
     id: 'local',
     kicker: 'LOCAL INFO',
-    subtitle: 'PLACE / CONDITIONS / POSITION',
+    subtitle: translate('ui.place_conditions_position'),
     source: 'NATURAL EARTH · OPEN-METEO · UTC',
   },
 ];

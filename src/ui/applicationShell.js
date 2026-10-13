@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import { resolveImageryHost } from '../layers/weather/imageryHost.js';
 import { ShellFacade } from './shellFacade.js';
 import { AircraftDisplay } from './aircraftDisplay.js';
@@ -1029,7 +1030,7 @@ export class StyleManager extends ShellFacade {
     const { cctvLayer } = this.services;
     if (this._disposed) return false;
     if (!this._dataManager || !this._dataManager.layers?.has('cctv')) {
-      this._showToast('CCTV layer unavailable');
+      this._showToast(translate('ui.cctv_layer_unavailable'));
       return false;
     }
     const enabled = this._dataManager.isEnabled('cctv');
@@ -1478,7 +1479,9 @@ export class StyleManager extends ShellFacade {
     this._lifetime.listen(this._shareBtn, 'click', async () => {
       const success = await this.shareLinkManager.copyLink();
       if (!this._disposed)
-        this._showToast(success ? 'Link copied!' : 'Copy failed');
+        this._showToast(
+          success ? translate('ui.link_copied') : translate('ui.copy_failed'),
+        );
     });
   }
 

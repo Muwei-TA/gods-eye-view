@@ -1,3 +1,4 @@
+import { translate, localizeLabel } from '../i18n/core.js';
 import { syncChipGroup } from './chipGroup.js';
 import { syncRowList } from './rowList.js';
 import { layerFeedState } from '../data/feedState.js';
@@ -18,7 +19,7 @@ const FEED_STATE_LABELS = Object.freeze({
 // Presentation order is independent of catalog registration and startup order.
 const PANEL_GROUPS = [
   {
-    label: 'Movement',
+    label: translate('ui.movement'),
     ids: [
       'satellites',
       'flights',
@@ -31,11 +32,11 @@ const PANEL_GROUPS = [
     ],
   },
   {
-    label: 'Cameras',
+    label: translate('ui.cameras'),
     ids: ['cctv', 'recent-imagery', 'street-level'],
   },
   {
-    label: 'Infrastructure',
+    label: translate('ui.infrastructure'),
     ids: [
       'alpr-cameras',
       'military-installations',
@@ -45,11 +46,11 @@ const PANEL_GROUPS = [
     ],
   },
   {
-    label: 'Events',
+    label: translate('ui.events'),
     ids: ['rocket-launches', 'earthquakes', 'local-firms', 'fire-perimeters'],
   },
   {
-    label: 'Weather',
+    label: translate('ui.weather_a0bba6'),
     ids: [
       'wind',
       'weather-radar',
@@ -59,7 +60,7 @@ const PANEL_GROUPS = [
     ],
   },
   {
-    label: 'Utilities',
+    label: translate('ui.utilities'),
     ids: ['directions', 'radio'],
   },
 ];
@@ -80,7 +81,7 @@ const PANEL_LABELS = {
 };
 
 function panelLabel(layer) {
-  return PANEL_LABELS[layer.id] || layer.name;
+  return localizeLabel(PANEL_LABELS[layer.id] || layer.name);
 }
 
 /**
@@ -521,7 +522,7 @@ export class LayerPanel {
   _buildMetaText(layer) {
     const stats = layer.stats || {};
     const feedState = layerFeedState(stats);
-    const stateLabel = FEED_STATE_LABELS[feedState];
+    const stateLabel = localizeLabel(FEED_STATE_LABELS[feedState]);
     const source = stats.source || layer.source;
     const lifecycleState =
       layer.lifecycleState || (layer.enabled ? 'enabled' : 'disabled');
@@ -626,10 +627,10 @@ export class LayerPanel {
     button.textContent = transitioning
       ? layer.lifecycleState.toUpperCase()
       : uncertain
-        ? 'UNCERTAIN'
+        ? translate('ui.uncertain')
         : layer.enabled || unavailable
-          ? FEED_STATE_LABELS[feedState]
-          : 'OFF';
+          ? localizeLabel(FEED_STATE_LABELS[feedState])
+          : translate('ui.off');
     const keyGuidance = unavailable
       ? String(layer.stats.error || 'Data source unavailable')
       : layerKeyRequirementTooltip(layer);
@@ -652,9 +653,10 @@ export class LayerPanel {
 
   _timeAgo(timestamp) {
     const diff = Math.floor((Date.now() - timestamp) / 1000);
-    if (diff < 5) return 'just now';
-    if (diff < 60) return `${diff}s ago`;
-    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-    return `${Math.floor(diff / 3600)}h ago`;
+    if (diff < 5) return translate('time.just_now');
+    if (diff < 60) return translate('time.seconds_ago', { count: diff });
+    if (diff < 3600)
+      return translate('time.minutes_ago', { count: Math.floor(diff / 60) });
+    return translate('time.hours_ago', { count: Math.floor(diff / 3600) });
   }
 }

@@ -1,4 +1,4 @@
-import { messages } from './messages.js';
+import { messages, messageKeys } from './messages.js';
 
 let activeLocale = 'en';
 
@@ -39,4 +39,12 @@ export function translate(key, parameters = {}, locale = activeLocale) {
   return pattern.replace(/\{([A-Za-z][A-Za-z0-9_]*)\}/g, (match, name) =>
     Object.hasOwn(parameters, name) ? String(parameters[name]) : match,
   );
+}
+
+/** Translate known application catalog labels at presentation boundaries. */
+export function localizeLabel(value, locale = activeLocale) {
+  const text = String(value ?? '');
+  return Object.hasOwn(messageKeys, text)
+    ? translate(messageKeys[text], {}, locale)
+    : text;
 }

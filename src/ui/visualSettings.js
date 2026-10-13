@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import { STYLE_STATUS_LABELS } from './visualPresets.js';
 import { UiLifetime } from './uiLifetime.js';
 import {
@@ -671,7 +672,9 @@ export class VisualSettings {
     const settings = applyCyberSonarSettings(readCyberSonarSettings());
     this._cyberSonarBtn.classList.toggle('active', enabled);
     this._cyberSonarBtn.setAttribute('aria-pressed', String(enabled));
-    this._cyberSonarBtn.textContent = enabled ? 'ON' : 'OFF';
+    this._cyberSonarBtn.textContent = enabled
+      ? translate('ui.on')
+      : translate('ui.off');
     for (const [input, output, value, suffix] of [
       [this._cyberSonarRings, this._cyberSonarRingsValue, settings.rings, ''],
       [this._cyberSonarRange, this._cyberSonarRangeValue, settings.range, '%'],
@@ -1190,8 +1193,8 @@ export class VisualSettings {
       this._celestialBtn.disabled = !styleSupported;
       this._celestialBtn.setAttribute('aria-disabled', String(!styleSupported));
       this._celestialBtn.title = styleSupported
-        ? 'Celestial ring — reveal the full globe'
-        : 'Celestial ring — available in Normal style';
+        ? translate('ui.celestial_ring_reveal_the_full_globe')
+        : translate('ui.celestial_ring_available_in_normal_style');
     }
     let cameraFocused = false;
     if (nextEnabled && focus) {
@@ -1648,21 +1651,23 @@ export class VisualSettings {
     btn.setAttribute(
       'aria-label',
       enabled
-        ? `Detection overlay: ${String(modeLabel).toLowerCase()}`
-        : 'Detection overlay: off',
+        ? translate('ui.detection_overlay_p0', {
+            p0: String(modeLabel).toLowerCase(),
+          })
+        : translate('ui.detection_overlay_off'),
     );
     btn.classList.remove('active', 'god', 'panoptic');
     if (modeLabel === 'SPARSE') {
-      btn.querySelector('.pp-label').textContent = 'SPARSE';
+      btn.querySelector('.pp-label').textContent = translate('ui.sparse');
       btn.classList.add('active');
     } else if (modeLabel === 'BALANCED') {
-      btn.querySelector('.pp-label').textContent = 'BALANCED';
+      btn.querySelector('.pp-label').textContent = translate('ui.balanced');
       btn.classList.add('active');
     } else if (modeLabel === 'DENSE') {
-      btn.querySelector('.pp-label').textContent = 'DENSE';
+      btn.querySelector('.pp-label').textContent = translate('ui.dense');
       btn.classList.add('active', 'panoptic');
     } else {
-      btn.querySelector('.pp-label').textContent = 'DETECT';
+      btn.querySelector('.pp-label').textContent = translate('ui.detect');
     }
 
     if (this._detectionSliderRow) {

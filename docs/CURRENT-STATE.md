@@ -1,5 +1,7 @@
 # God's Eye View Current State
 
+The frontend supports English and Simplified Chinese (`zh-CN`). Explicit language preferences are saved in localStorage; selection reloads the current URL. Browser locale is used on first launch. Application-owned copy is keyed in `src/i18n/messages.js`; external provider data and stable layer IDs are unchanged. `scripts/check-i18n.mjs` validates catalogs and template references; `scripts/qa-i18n.mjs` exercises both languages and narrow layouts.
+
 Vessel sources can report healthy empty coverage using a current, complete
 snapshot with zero raw rows, a healthy transport and a positive last-message
 time. This clears obsolete contacts and settles startup without manufacturing

@@ -1,3 +1,4 @@
+import { localizeLabel } from '../i18n/core.js';
 import { RealtimeConnection } from './realtimeConnection.js';
 import { RealtimeTurns } from './realtimeTurns.js';
 import { RealtimeViewport } from './realtimeViewport.js';
@@ -444,8 +445,8 @@ export class GevRealtimeController extends RealtimeFacade {
         ? 'VOICE UNAVAILABLE'
         : resolvedDetail ||
           (status === 'idle' ? 'VOICE STANDBY' : 'VOICE ACTIVE');
-    this.ui.detail.textContent = primaryDetail;
-    this.ui.detail.title = primaryDetail;
+    this.ui.detail.textContent = localizeLabel(primaryDetail);
+    this.ui.detail.title = localizeLabel(primaryDetail);
     if (this.ui.errorDetail) {
       this.ui.errorDetail.textContent =
         status === 'error'

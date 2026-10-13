@@ -1,3 +1,27 @@
+/* Bundled icon ligatures keep controls usable without external font access. */
+@font-face {
+  font-family: 'GEV Material Symbols';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/fonts/material-symbols-outlined-400.woff2') format('woff2');
+}
+.material-symbols-outlined {
+  font-family: 'GEV Material Symbols', 'Material Symbols Outlined';
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
 /* ═══════════════════════════════════════════════
    GOD'S EYE VIEW — Dark Sci-Fi UI
    Apple meets Blade Runner
@@ -242,7 +266,7 @@ body.cockpit-mode #cockpit-cloud-effects.active {
   position: absolute;
   z-index: 2;
   transform: translate(-50%, -50%);
-  font-family: 'Material Symbols Outlined';
+  font-family: 'GEV Material Symbols', 'Material Symbols Outlined';
   font-size: 20px;
   font-weight: 400;
   font-style: normal;

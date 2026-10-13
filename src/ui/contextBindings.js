@@ -1,3 +1,4 @@
+import { translate } from '../i18n/core.js';
 import { shouldExpandGlobalContextPanel } from '../rightRailPolicy.js';
 
 export function _initGlobalContextPanel() {
@@ -108,8 +109,8 @@ export function _initGlobalContextPanel() {
       this.showToast(
         stats?.statusMessage ||
           (stats?.status === 'zoom-in'
-            ? 'Zoom in to search mapped installations'
-            : 'Nearby installations refreshed'),
+            ? translate('ui.zoom_in_to_search_mapped_installations')
+            : translate('ui.nearby_installations_refreshed')),
       );
       return true;
     }, 'Nearby installations could not be refreshed; try again').finally(() => {

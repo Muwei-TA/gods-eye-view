@@ -1,3 +1,4 @@
+import { translate } from './i18n/core.js';
 import { applicationServices } from './services/application.js';
 /**
  * @module hud
@@ -191,7 +192,7 @@ export class IntelHUD {
       <div class="hud-top-bar">
         <span class="hud-top-bar-left">TOP SECRET // SI-TK // NOFORN</span>
         <span class="hud-top-bar-center">${this._missionId}</span>
-        <span class="hud-top-bar-right">PAGE 1/1</span>
+        <span class="hud-top-bar-right">${translate('ui.page_1_1')}</span>
       </div>
 
       <div class="hud-corner hud-top-left">
@@ -199,17 +200,17 @@ export class IntelHUD {
         <div class="hud-content">
           <div class="hud-classification">TOP SECRET // SI-TK // NOFORN</div>
           <div class="hud-system">${this._missionId}  ${this._sensorId}</div>
-          <div class="hud-mode" id="hud-mode">NORMAL</div>
+          <div class="hud-mode" id="hud-mode">${translate('ui.normal')}</div>
           <div class="hud-summary-wrap">
-            <div class="hud-summary-label">SUMMARY</div>
-            <div class="hud-summary" id="hud-summary">Awaiting telemetry...</div>
+            <div class="hud-summary-label">${translate('ui.summary')}</div>
+            <div class="hud-summary" id="hud-summary">${translate('ui.awaiting_telemetry')}</div>
           </div>
         </div>
       </div>
 
       <div class="hud-corner hud-top-right">
         <div class="hud-content" style="text-align:right">
-          <div class="hud-rec"><span id="hud-rec-dot">●</span> REC  <span id="hud-timestamp">2026-01-01 00:00:00Z</span></div>
+          <div class="hud-rec"><span id="hud-rec-dot">●</span> ${translate('ui.rec')}  <span id="hud-timestamp">2026-01-01 00:00:00Z</span></div>
           <div class="hud-orbital">ORB: ${this._orbitNum}  PASS: DESC-${this._passNum}</div>
         </div>
         <div class="hud-bracket">┐</div>

@@ -1,5 +1,5 @@
 import { readShellSource, shellMethod } from './testSupport/readShellSource.mjs';
-import { expandApplicationHtml } from '../build/application-html.js';
+import { expandApplicationHtml } from './testSupport/legacyApplicationHtml.mjs';
 import { readLayerSource } from './testSupport/readLayerSource.mjs';
 import { PanelLayoutController } from './ui/panelLayoutController.js';
 import { readShellElements } from './ui/shellElements.js';
@@ -190,10 +190,10 @@ test('the Contact panel never hides itself out from under its own NEXT button', 
   );
   // A foreign subject dashes the nose-relative arrow/bearing only.
   assert.match(body, /readout\.aircraftRelative/);
-  assert.match(body, /'BRG —'/);
+  assert.match(body, /translate\('ui.brg'\)/);
   // A culled subject holds last-known content behind the CONTACT LOST cue.
   assert.match(body, /readout\.contactLost/);
-  assert.match(body, /CONTACT LOST/);
+  assert.match(body, /translate\(\s*'ui.contact_lost_last_known_readout_not_an_all_clear'/);
   assert.match(body, /this\.context\.dataset\.state = 'lost'/);
   assert.match(body, /if \(readout\.contactLost\) \{/, 'the CONTACT LOST branch is missing');
   // PREVIOUS/NEXT must be written before any early return, so the operator can
@@ -778,7 +778,7 @@ test('cockpit summary presents the focused item as Contact', () => {
   assert.match(match[0], /aria-label="Next — nearest unvisited contact in the 250 km window"/);
   assert.match(match[0], /aria-label="Collapse Contact panel"/);
   assert.doesNotMatch(match[0], />GLOBAL CONTEXT</);
-  assert.match(setContextCollapsed.toString(), /`\$\{expanded \? 'Collapse' : 'Expand'\} Contact panel`/);
+  assert.match(setContextCollapsed.toString(), /translate\('ui.p0_contact_panel'/);
 });
 
 test('Cockpit Contact navigation omits the redundant Focus camera action', () => {

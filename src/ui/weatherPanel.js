@@ -1,3 +1,4 @@
+import { translate, localizeLabel } from '../i18n/core.js';
 import { createRailCards } from './railCards.js';
 import { createRailTimeline } from './railTimeline.js';
 
@@ -15,15 +16,18 @@ const OBSERVED = new Set(ORDER.slice(2));
 const utc = (time) =>
   Number.isFinite(Date.parse(time))
     ? `${new Date(time).toISOString().slice(5, 16).replace('T', ' ')} UTC`
-    : 'Unavailable';
+    : localizeLabel('Unavailable');
 const age = (time) => {
   const minutes = Math.max(
     0,
     Math.floor((Date.now() - Date.parse(time)) / 60_000),
   );
   return minutes >= 60
-    ? `${Math.floor(minutes / 60)}h ${minutes % 60}m ago`
-    : `${minutes}m ago`;
+    ? translate('time.hours_minutes_ago', {
+        hours: Math.floor(minutes / 60),
+        minutes: minutes % 60,
+      })
+    : translate('time.minutes_ago', { count: minutes });
 };
 const historyTime = (time) =>
   `${utc(time).slice(6)} · ${Math.max(0, Math.floor((Date.now() - Date.parse(time)) / 60_000))} min ago`;
@@ -63,7 +67,7 @@ export function createWeatherPanel({
   const root = document.createElement('section');
   root.className = 'weather-readout';
   root.hidden = true;
-  root.setAttribute('aria-label', 'Active weather');
+  root.setAttribute('aria-label', translate('ui.active_weather'));
   const timelineHost = document.createElement('div');
   timelineHost.className = 'weather-timeline-block';
   timelineHost.hidden = true;
@@ -71,10 +75,10 @@ export function createWeatherPanel({
   cardsHost.className = 'weather-cards';
   const observedGroup = document.createElement('section');
   observedGroup.className = 'weather-observed-group';
-  observedGroup.setAttribute('aria-label', 'Observed history');
+  observedGroup.setAttribute('aria-label', translate('ui.observed_history'));
   const heading = document.createElement('h3');
   heading.className = 'panel-title';
-  heading.textContent = 'Observed history';
+  heading.textContent = translate('ui.observed_history');
   const scope = document.createElement('div');
   scope.className = 'weather-observed-scope';
   const observedCardsHost = document.createElement('div');

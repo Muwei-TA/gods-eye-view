@@ -1,3 +1,4 @@
+import { translate, localizeLabel } from '../i18n/core.js';
 import { syncChipGroup } from './chipGroup.js';
 import { syncRowList } from './rowList.js';
 
@@ -98,8 +99,11 @@ export function createRailCardBlocks({ container, cardId, onParams }) {
             block.clear.type = 'button';
             block.clear.dataset.actionId = 'clear';
             block.clear.textContent = '×';
-            block.clear.setAttribute('aria-label', 'Clear reading');
-            block.clear.title = 'Clear reading';
+            block.clear.setAttribute(
+              'aria-label',
+              translate('ui.clear_reading'),
+            );
+            block.clear.title = translate('ui.clear_reading');
             bind((event) => {
               if (event.target === block.clear) dispatch(block.props.clear);
             });
@@ -132,12 +136,12 @@ export function createRailCardBlocks({ container, cardId, onParams }) {
             })),
           );
         else if (props.type === 'setting') {
-          set(block.label, 'textContent', props.label);
-          attribute(block.chips, 'aria-label', props.label);
+          set(block.label, 'textContent', localizeLabel(props.label));
+          attribute(block.chips, 'aria-label', localizeLabel(props.label));
           syncChipGroup(block.chips, props.chips);
         } else if (props.type === 'list') syncRowList(block.root, props.list);
         else if (props.type === 'result') {
-          set(block.label, 'textContent', props.label);
+          set(block.label, 'textContent', localizeLabel(props.label));
           set(block.clear, 'hidden', !props.clear);
           block.children.update([
             { id: 'result-lines', type: 'lines', lines: props.lines },
