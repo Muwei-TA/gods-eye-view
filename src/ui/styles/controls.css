@@ -1301,3 +1301,33 @@ body.ui-clean-view #scene-runtime.active {
   text-align: right;
   flex-shrink: 0;
 }
+
+/* Language remains reachable even when the display panels are collapsed. */
+#language-control {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 120;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--text-secondary);
+  font: 11px var(--font-sans);
+}
+#language-select {
+  color: var(--text-primary);
+  background: var(--menu-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 4px 6px;
+  max-width: 100px;
+}
+@media (max-width: 600px) {
+  #language-control {
+    top: 6px;
+    left: 6px;
+  }
+  #language-control > span {
+    display: none;
+  }
+}

@@ -653,3 +653,13 @@ body.cockpit-mode #cockpit-cloud-effects.active {
   text-shadow: 0 0 20px var(--accent-glow);
   transition: var(--transition-smooth);
 }
+
+html[lang='zh-CN'] {
+  --font-sans:
+    'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+  --font-mono: 'JetBrains Mono', 'PingFang SC', 'Microsoft YaHei', monospace;
+}
+html[lang='zh-CN'] .pp-label,
+html[lang='zh-CN'] .panel-title {
+  letter-spacing: 0.02em;
+}
