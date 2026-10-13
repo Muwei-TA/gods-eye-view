@@ -149,3 +149,22 @@ test('shared provider registration serves a real keyless transit catalog and cle
   await server.close();
   await server.close();
 });
+
+test('raw fragments cannot bypass static symlink or dotfile guards', async (t) => {
+  const { base, root } = await fixture(t);
+  await writeFile(path.join(root, 'outside.txt'), 'private fixture');
+  await writeFile(path.join(root, 'dist', '.env.local'), 'private fixture');
+  await symlink(path.join(root, 'outside.txt'), path.join(root, 'dist', 'escape.txt'));
+  for (const requestPath of ['/escape.txt#suffix', '/.env.local#suffix']) {
+    const result = await new Promise((resolve, reject) => {
+      http.get({ hostname: '127.0.0.1', port: new URL(base).port, path: requestPath }, (response) => {
+        let body = '';
+        response.setEncoding('utf8');
+        response.on('data', (chunk) => { body += chunk; });
+        response.on('end', () => resolve({ status: response.statusCode, body }));
+      }).on('error', reject);
+    });
+    assert.equal(result.status, 400, requestPath);
+    assert.doesNotMatch(result.body, /private fixture/);
+  }
+});

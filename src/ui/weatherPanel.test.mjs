@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createWeatherPanel } from './weatherPanel.js';
 import { railFixture } from './railTestFixture.mjs';
+import { setLocale } from '../i18n/core.js';
 const ticks = ['2026-09-22T01:00:00Z', '2026-09-22T01:05:00Z'];
 const wind = {
   id: 'wind',
@@ -73,6 +74,38 @@ const timelineHost = (f) =>
 const card = (f, id) => f.find((n) => n.dataset.cardId === id);
 const line = (f, id, name) =>
   f.find((n) => n.dataset.lineId === name, card(f, id));
+test('Chinese weather stays localized through latest, forecast and history updates', () => {
+  setLocale('zh-CN');
+  const f = fixture();
+  const view = createWeatherPanel(f);
+  try {
+    view.update([radar, wind]);
+    assert.equal(
+      f.find((n) => n.className === 'weather-observed-scope').textContent,
+      '降雨雷达',
+    );
+    assert.ok(f.find((n) => n.textContent === '最新 · 每个产品的最新画面'));
+    assert.match(
+      line(f, 'wind', 'time').textContent,
+      /预报 · 有效时间 .*UTC · 发布时间 .*UTC/,
+    );
+    f.state({ mode: 'history', target: ticks[1] });
+    assert.match(line(f, radar.id, 'time').textContent, /分钟前 · 已同步/);
+    assert.match(line(f, 'wind', 'time').textContent, /不随历史时间变化/);
+    f.state({
+      products: [{ id: radar.id, shown: ticks[0], selected: ticks[0] }],
+    });
+    assert.match(line(f, radar.id, 'time').textContent, /最近画面/);
+    f.state({ products: [{ id: radar.id, shown: null, selected: null }] });
+    assert.equal(
+      line(f, radar.id, 'time').textContent,
+      '01:05 UTC 前后 30 分钟内没有画面',
+    );
+  } finally {
+    view.destroy();
+    setLocale('en');
+  }
+});
 test('timeline stays visible with any observed product; native preview and transport use the clock', (t) => {
   t.mock.timers.enable({ apis: ['setTimeout'] });
   const f = fixture();

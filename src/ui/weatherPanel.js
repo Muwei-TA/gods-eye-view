@@ -30,7 +30,7 @@ const age = (time) => {
     : translate('time.minutes_ago', { count: minutes });
 };
 const historyTime = (time) =>
-  `${utc(time).slice(6)} · ${Math.max(0, Math.floor((Date.now() - Date.parse(time)) / 60_000))} min ago`;
+  `${utc(time).slice(6)} · ${translate('time.minutes_ago', { count: Math.max(0, Math.floor((Date.now() - Date.parse(time)) / 60_000)) })}`;
 const dated = (time) => `${utc(time)} · ${age(time)}`;
 const set = (node, key, value) => {
   if (node[key] !== value) node[key] = value;
@@ -140,7 +140,11 @@ export function createWeatherPanel({
       'weather-satellite': 'Satellite clouds',
       'weather-lightning': 'Lightning density',
     };
-    set(scope, 'textContent', observed.map(({ id }) => names[id]).join(' · '));
+    set(
+      scope,
+      'textContent',
+      observed.map(({ id }) => localizeLabel(names[id])).join(' · '),
+    );
     set(timelineHost, 'hidden', !showTimeline);
     const index =
       state.mode === 'latest'
@@ -159,7 +163,7 @@ export function createWeatherPanel({
       disabled: !showTimeline || state.timeline.length < 2,
       readout:
         state.mode === 'latest'
-          ? 'LATEST · newest per product'
+          ? translate('weather.latest')
           : historyTime(state.target),
     });
     const models = active.map(({ id, icon, summary, legend = [], list }) => {
@@ -169,18 +173,27 @@ export function createWeatherPanel({
         const shown = product?.shown ?? summary.shownTime;
         if (state.mode === 'history' && product?.selected === null) {
           const gap = summary.maxGapMinutes || 30;
-          detail = `No frame within ${gap < 60 ? `${gap} min` : `${gap / 60} h`} of ${utc(state.target).slice(6)}`;
+          detail = translate('weather.no_frame', {
+            gap: translate(gap < 60 ? 'weather.minutes' : 'weather.hours', {
+              count: gap < 60 ? gap : gap / 60,
+            }),
+            time: utc(state.target).slice(6),
+          });
         } else if (shown) {
           detail = dated(shown);
           if (state.mode === 'history')
             detail +=
               Date.parse(shown) === Date.parse(state.target)
-                ? ' · synced'
-                : ' · nearest';
+                ? translate('weather.synced')
+                : translate('weather.nearest');
         }
       } else if (id === 'wind') {
-        detail = `Forecast · valid ${utc(summary.validTime)} · issued ${utc(summary.issuedTime)}`;
-        if (state.mode === 'history') detail += ' · Does not follow history';
+        detail = translate('weather.forecast', {
+          valid: utc(summary.validTime),
+          issued: utc(summary.issuedTime),
+        });
+        if (state.mode === 'history')
+          detail += translate('weather.independent_history');
       }
       const lines = [
         { id: 'time', text: detail, muted: true },
@@ -226,7 +239,9 @@ export function createWeatherPanel({
           summary.status ||
           summary.compact ||
           (id === 'wind'
-            ? `Forecast · valid ${utc(summary.validTime)}`
+            ? translate('weather.forecast_compact', {
+                valid: utc(summary.validTime),
+              })
             : detail),
         compactStatus: Boolean(summary.status),
         blocks,

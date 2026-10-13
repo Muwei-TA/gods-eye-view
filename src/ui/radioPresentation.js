@@ -1,4 +1,4 @@
-import { translate } from '../i18n/core.js';
+import { translate, localizeLabel } from '../i18n/core.js';
 /** Render Radio state without making playback or Context decisions. */
 export function renderRadioState(state) {
   if (this.destroyed || !state || !this._radioPanel) return;
@@ -33,7 +33,7 @@ export function renderRadioState(state) {
   this._radioLayerState?.classList.toggle('active', enabled);
   if (this._radioLayerState) {
     this._radioLayerState.textContent = transitioning
-      ? lifecycleState.toUpperCase()
+      ? translate(`radio.${lifecycleState}`)
       : uncertain
         ? translate('ui.uncertain')
         : state.loading
@@ -46,7 +46,7 @@ export function renderRadioState(state) {
     this._radioEnableBtn.classList.toggle('active', enabled);
     this._radioEnableBtn.setAttribute('aria-pressed', String(enabled));
     this._radioEnableBtn.textContent = transitioning
-      ? lifecycleState.toUpperCase()
+      ? translate(`radio.${lifecycleState}`)
       : uncertain
         ? translate('ui.reconcile')
         : enabled
@@ -73,7 +73,7 @@ export function renderRadioState(state) {
       String(enabled),
     );
     this._contextRadioMiniEnableBtn.textContent = transitioning
-      ? lifecycleState.toUpperCase()
+      ? translate(`radio.${lifecycleState}`)
       : uncertain
         ? translate('ui.reconcile')
         : enabled
@@ -103,7 +103,7 @@ export function renderRadioState(state) {
     this._cockpitRadioEnableBtn.classList.toggle('active', enabled);
     this._cockpitRadioEnableBtn.setAttribute('aria-pressed', String(enabled));
     this._cockpitRadioEnableBtn.textContent = transitioning
-      ? lifecycleState.toUpperCase()
+      ? translate(`radio.${lifecycleState}`)
       : uncertain
         ? translate('ui.reconcile')
         : enabled
@@ -140,12 +140,12 @@ export function renderRadioState(state) {
         ...state.categories.map((category) => {
           const option = document.createElement('option');
           option.value = category.id;
-          option.textContent = `● ${category.label} (${category.count})`;
+          option.textContent = `● ${localizeLabel(category.label)} (${category.count})`;
           option.dataset.radioColor = category.color;
           option.style.color = category.color;
           option.setAttribute(
             'aria-label',
-            `${category.label} (${category.count})`,
+            `${localizeLabel(category.label)} (${category.count})`,
           );
           return option;
         }),
@@ -171,7 +171,9 @@ export function renderRadioState(state) {
       state.filter === 'all'
         ? translate('ui.directory_band')
         : translate('ui.p0_band', {
-            p0: String(activeCategory?.label || state.filter).toUpperCase(),
+            p0: String(
+              localizeLabel(activeCategory?.label || state.filter),
+            ).toUpperCase(),
           });
   }
   this._radioTuner?.classList.toggle('is-static', Boolean(state.tuningStatic));
@@ -235,53 +237,50 @@ export function renderRadioState(state) {
     this._cockpitRadioNextBtn.disabled = !interactive || !hasStations;
   if (this._radioPlayBtn) {
     const action = activePlayback
-      ? 'Pause'
+      ? translate('ui.pause')
       : state.audioState === 'paused'
-        ? 'Resume'
-        : 'Play';
+        ? translate('radio.resume')
+        : translate('ui.play_436e61');
     this._radioPlayBtn.disabled = !interactive || !hasStations;
     this._radioPlayBtn.classList.toggle('active', activePlayback);
     this._radioPlayBtn.textContent = action.toUpperCase();
     this._radioPlayBtn.setAttribute(
       'aria-label',
-      translate('ui.p0_p1_radio_station', {
-        p0: action,
-        p1: selected ? 'selected' : 'nearest',
+      translate(selected ? 'radio.selected_action' : 'radio.nearest_action', {
+        action,
       }),
     );
   }
   if (this._contextRadioMiniPlayBtn) {
     const action = activePlayback
-      ? 'Pause'
+      ? translate('ui.pause')
       : state.audioState === 'paused'
-        ? 'Resume'
-        : 'Play';
+        ? translate('radio.resume')
+        : translate('ui.play_436e61');
     this._contextRadioMiniPlayBtn.disabled = !interactive || !hasStations;
     this._contextRadioMiniPlayBtn.classList.toggle('active', activePlayback);
     this._contextRadioMiniPlayBtn.textContent = activePlayback ? 'Ⅱ' : '▶';
     this._contextRadioMiniPlayBtn.setAttribute(
       'aria-label',
-      translate('ui.p0_p1_radio_station', {
-        p0: action,
-        p1: selected ? 'selected' : 'nearest',
+      translate(selected ? 'radio.selected_action' : 'radio.nearest_action', {
+        action,
       }),
     );
     this._contextRadioMiniPlayBtn.title = action;
   }
   if (this._cockpitRadioPlayBtn) {
     const action = activePlayback
-      ? 'Pause'
+      ? translate('ui.pause')
       : state.audioState === 'paused'
-        ? 'Resume'
-        : 'Play';
+        ? translate('radio.resume')
+        : translate('ui.play_436e61');
     this._cockpitRadioPlayBtn.disabled = !interactive || !hasStations;
     this._cockpitRadioPlayBtn.classList.toggle('active', activePlayback);
     this._cockpitRadioPlayBtn.textContent = activePlayback ? 'Ⅱ' : '▶';
     this._cockpitRadioPlayBtn.setAttribute(
       'aria-label',
-      translate('ui.p0_p1_radio_station', {
-        p0: action,
-        p1: selected ? 'selected' : 'nearest',
+      translate(selected ? 'radio.selected_action' : 'radio.nearest_action', {
+        action,
       }),
     );
     this._cockpitRadioPlayBtn.title = action;
@@ -334,45 +333,51 @@ export function renderRadioState(state) {
   if (this._radioPlaybackState) {
     const catalogSuffix = state.degraded
       ? state.stale
-        ? ' · stale/degraded directory'
-        : ' · degraded directory'
+        ? translate('radio.stale_degraded')
+        : translate('radio.degraded')
       : state.stale
-        ? ' · stale directory'
+        ? translate('radio.stale')
         : '';
     const outsideFilter =
-      selected && state.selectedIndex < 0 ? ' · outside current filter' : '';
+      selected && state.selectedIndex < 0
+        ? translate('radio.outside_filter')
+        : '';
     const messages = {
       stopped: enabled
-        ? 'Ready — playback starts only from your action'
-        : 'Radio off',
-      loading: 'Connecting directly to broadcaster…',
-      buffering: 'Buffering broadcaster stream…',
-      playing: `Playing ${selected?.name || 'station'}`,
-      paused: `Paused ${selected?.name || 'station'}`,
-      error: state.audioError || 'Broadcaster stream unavailable',
+        ? translate('radio.ready_action')
+        : translate('radio.off'),
+      loading: translate('radio.connecting'),
+      buffering: translate('radio.buffering'),
+      playing: translate('radio.playing', {
+        station: selected?.name || translate('radio.station'),
+      }),
+      paused: translate('radio.paused', {
+        station: selected?.name || translate('radio.station'),
+      }),
+      error: localizeLabel(state.audioError) || translate('radio.unavailable'),
     };
     const voiceSuffix = state.voiceDucked
-      ? ' · muted during voice interaction'
+      ? translate('radio.voice_muted')
       : state.voiceRestoring
-        ? ' · restoring volume after voice'
+        ? translate('radio.voice_restoring')
         : '';
     const tuningSuffix = state.tuningAwaitingStationId
       ? state.audioState === 'error'
-        ? ' · static indicates no broadcaster audio'
-        : ' · tuning static until broadcaster starts'
+        ? translate('radio.static_unavailable')
+        : translate('radio.static_tuning')
       : '';
     const unavailable = state.tuningUnavailableStationId
-      ? 'Station unavailable after directory refresh — choose another channel'
+      ? translate('radio.station_unavailable')
       : null;
     const lifecycleMessage = transitioning
       ? lifecycleState === 'enabling'
-        ? 'Radio is enabling…'
-        : 'Radio is disabling…'
+        ? translate('radio.enabling_feedback')
+        : translate('radio.disabling_feedback')
       : null;
     const uncertainMessage = uncertain
-      ? 'Radio lifecycle is uncertain — use Enable or Disable to reconcile'
+      ? translate('radio.uncertain_feedback')
       : null;
-    this._radioPlaybackState.textContent = `${uncertainMessage || unavailable || lifecycleMessage || state.error || messages[state.audioState] || 'Ready'}${tuningSuffix}${voiceSuffix}${catalogSuffix}${outsideFilter}`;
+    this._radioPlaybackState.textContent = `${uncertainMessage || unavailable || lifecycleMessage || localizeLabel(state.error) || messages[state.audioState] || translate('radio.ready')}${tuningSuffix}${voiceSuffix}${catalogSuffix}${outsideFilter}`;
     this._radioPlaybackState.classList.toggle(
       'error',
       Boolean(

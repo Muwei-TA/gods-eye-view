@@ -63,6 +63,10 @@ export function createDeploymentServer({
       return json(response, 403, {
         error: 'Blocked request. This host is not allowed.',
       });
+    // Fragments are not part of an HTTP request target. Reject them before
+    // downstream parsers can disagree about the path being validated.
+    if (request.url?.includes('#'))
+      return json(response, 400, { error: 'Malformed path' });
     next();
   });
   app.use((request, response, next) => {

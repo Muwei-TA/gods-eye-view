@@ -68,6 +68,49 @@ try {
       dynamic.chip,
       locale === 'en' ? 'POWER UP · 2 KEYS WAITING' : '待配置 · 2 个密钥',
     );
+    const panelUpdates = await page.evaluate(async () => {
+      const { renderRadioState } = await import('/src/ui/radioPresentation.js');
+      const { createWeatherPanel } = await import('/src/ui/weatherPanel.js');
+      const host = {
+        _radioPanel: document.getElementById('radio-panel'),
+        _radioPlayBtn: document.getElementById('radio-play-btn'),
+        _radioPlaybackState: document.getElementById('radio-playback-state'),
+        _contextRadioMiniPlayBtn: document.getElementById('context-radio-mini-play-btn'),
+        _cockpitRadioPlayBtn: document.getElementById('cockpit-radio-play-btn'),
+        actions: { getLifecycle: () => null, scheduleLayout() {} },
+        _syncContextRadioLauncherState() {},
+      };
+      const radio = [];
+      for (const audioState of ['playing', 'paused', 'stopped']) {
+        renderRadioState.call(host, { enabled: true, audioState, selected: { name: 'BBC' }, categories: [], stationCount: 1, filteredCount: 1, selectedIndex: 0, volume: 1 });
+        radio.push({ text: host._radioPlayBtn.textContent, aria: host._radioPlayBtn.getAttribute('aria-label'), feedback: host._radioPlaybackState.textContent });
+      }
+      const ticks = ['2026-09-22T01:00:00Z', '2026-09-22T01:05:00Z'];
+      let state = { mode: 'latest', timeline: ticks, products: [] };
+      let notify;
+      const panel = createWeatherPanel({
+        container: document.getElementById('weather-panel-body'),
+        clock: { getState: () => state, subscribe: (fn) => { notify = fn; return () => {}; } },
+      });
+      panel.update([
+        { id: 'wind', summary: { label: 'Wind motion', validTime: ticks[0], issuedTime: ticks[0] } },
+        { id: 'weather-radar', summary: { label: 'Rain radar' } },
+      ]);
+      const root = document.querySelector('#weather-panel-body .weather-readout:last-child');
+      const latest = root.querySelector('.rail-timeline-readout').textContent;
+      const forecast = root.querySelector('[data-card-id="wind"] [data-line-id="time"]').textContent;
+      state = { ...state, mode: 'history', target: ticks[1], products: [{ id: 'weather-radar', selected: null }] };
+      notify(state);
+      const missing = root.querySelector('[data-card-id="weather-radar"] [data-line-id="time"]').textContent;
+      panel.destroy();
+      return { radio, latest, forecast, missing, brand: document.querySelector('#title-bar h1').innerText.trim() };
+    });
+    assert.deepEqual(panelUpdates.radio.map(({ text }) => text), locale === 'en' ? ['PAUSE', 'RESUME', 'PLAY'] : ['暂停', '继续', '播放']);
+    assert.deepEqual(panelUpdates.radio.map(({ aria }) => aria), locale === 'en' ? ['Pause selected radio station', 'Resume selected radio station', 'Play selected radio station'] : ['暂停所选电台', '继续所选电台', '播放所选电台']);
+    assert.equal(panelUpdates.latest, locale === 'en' ? 'LATEST · newest per product' : '最新 · 每个产品的最新画面');
+    assert.match(panelUpdates.forecast, locale === 'en' ? /Forecast · valid .* · issued/ : /预报 · 有效时间 .* · 发布时间/);
+    assert.equal(panelUpdates.missing, locale === 'en' ? 'No frame within 30 min of 01:05 UTC' : '01:05 UTC 前后 30 分钟内没有画面');
+    assert.equal(panelUpdates.brand, "GOD'S EYE VIEW");
     const icons = await page.$$eval('.material-symbols-outlined', (elements) =>
       elements.map((el) => el.textContent.trim()),
     );
